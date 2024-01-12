@@ -164,23 +164,15 @@ hr {
 }
 
 :root {
-	--sidebar-width: 17rem;
+	--nav-height: 4rem;
+	--nav-menu-height: 2.5rem;
+
 	--font-family: 'Poppins', sans-serif;
 
-	--color-border: #e2e8f0;
-	--color-background-dark: #1b1a20;
-	--color-background-light: #f7f7f7;
-	--color-background-lighter: #fefefe;
-
-	--color-primary: #ec8431;
-	--color-primary-dark: #a95c1d;
-	--color-pastel: #ffe9d7;
-
-	--color-success-dark: #004a17;
-	--color-success-light: #bfffca;
-
-	--color-failure-dark: #4a0600;
-	--color-failure-light: #ffdfdf;
+	--color-primary: #ec0000;
+	--color-grey: #f1f1f1;
+	--color-grey-dark: #aaa;
+	--color-info: #ffc90e;
 
 	--border-radius-s: 3px;
 	--border-radius-l: 8px;
