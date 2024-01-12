@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap');
+
+/*
+    1. Use a more-intuitive box-sizing model.
+  */
+*,
+*::before,
+*::after {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+/*
+    2. Remove default margin
+  */
+* {
+	margin: 0;
+	padding: 0;
+}
+
+/*
+    3. Allow percentage-based heights in the application
+  */
+html,
+body {
+	height: 100%;
+	font-size: 100%;
+	font-family: 'Poppins', sans-serif;
+}
+
+/*
+    Typographic tweaks!
+    4. Add accessible line-height
+    5. Improve text rendering
+  */
+body {
+	line-height: 1.5;
+	-webkit-font-smoothing: antialiased;
+}
+
+/*
+    6. Improve media defaults
+  */
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	max-width: 100%;
+}
+
+/*
+    7. Remove built-in form typography styles
+  */
+input,
+button,
+textarea,
+select {
+	font: inherit;
+	all: unset;
+}
+
+/*
+    8. Avoid text overflows
+  */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	overflow-wrap: anywhere;
+}
+
+ul {
+	list-style: none;
+}
+
+/*
+    9. Create a root stacking context
+  */
+#__next {
+	height: 100%;
+	isolation: isolate;
+}
+
+main {
+	height: 100%;
+}
+
+/* animation delay for custom tooltips */
+div:has(#ToolTip-Overlay) {
+	animation-delay: 500ms !important;
+	z-index: 1000;
+}
+
+#contentbox,
+#navbox {
+	overflow-y: auto;
+	scrollbar-color: var(--color-primary) transparent;
+
+	overflow-y: overlay;
+}
+
+#contentbox::-webkit-scrollbar,
+#navbox::-webkit-scrollbar {
+	background: transparent;
+	width: 9px;
+}
+
+#contentbox::-webkit-scrollbar-thumb,
+#navbox::-webkit-scrollbar-thumb {
+	background-color: var(--color-primary);
+	min-height: 8vh;
+	max-height: 8vh;
+	border-radius: 20px;
+}
+
+@media only screen and (max-width: 992px) {
+	#contentbox::-webkit-scrollbar,
+	#navbox::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+fieldset {
+	border: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+input {
+	font-size: 0.9rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 500;
+}
+
+h1 {
+	font-size: 2.5rem;
+	line-height: 1;
+}
+
+h4 {
+	line-height: 1.5;
+	font-weight: 600;
+}
+
+hr {
+	border: 0;
+	height: 1px;
+	background: var(--color-primary);
+}
+
+:root {
+	--sidebar-width: 17rem;
+	--font-family: 'Poppins', sans-serif;
+
+	--color-border: #e2e8f0;
+	--color-background-dark: #1b1a20;
+	--color-background-light: #f7f7f7;
+	--color-background-lighter: #fefefe;
+
+	--color-primary: #ec8431;
+	--color-primary-dark: #a95c1d;
+	--color-pastel: #ffe9d7;
+
+	--color-success-dark: #004a17;
+	--color-success-light: #bfffca;
+
+	--color-failure-dark: #4a0600;
+	--color-failure-light: #ffdfdf;
+
+	--border-radius-s: 3px;
+	--border-radius-l: 8px;
+}
+
+/*  =======CUSTOM ANIMATIONS======= */
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(0.4rem);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes rotate {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		rotate: 360deg;
+	}
+}
