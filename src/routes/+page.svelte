@@ -8,4 +8,7 @@
 
 <style>
 	@import './globals.css';
+	p {
+		color: black;
+	}
 </style>
