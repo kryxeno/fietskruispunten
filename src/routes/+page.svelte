@@ -6,8 +6,7 @@
 
 	const setPage = (newPage) => {
 		page = newPage;
-	}
-
+	};
 </script>
 
 <header>
@@ -37,12 +36,10 @@
 <nav>
 	<ul>
 		<li>
-			<button on:click={() => setPage(1)} class={ page === 1 && 'active'}>
-				Introductie
-			</button>
+			<button on:click={() => setPage(1)} class={page === 1 && 'active'}> Introductie </button>
 		</li>
 		<li>
-			<button on:click={() => setPage(2)} class={ page === 2 && 'active'}>
+			<button on:click={() => setPage(2)} class={page === 2 && 'active'}>
 				Fietsroute planner
 			</button>
 		</li>
@@ -60,7 +57,7 @@
 		background-color: var(--color-grey);
 		padding: 0 3rem;
 		height: var(--nav-menu-height);
-		box-shadow: 2px 2px 2px rgba(51,51,51,.3);
+		box-shadow: 2px 2px 2px rgba(51, 51, 51, 0.3);
 
 		ul {
 			display: flex;
@@ -68,7 +65,8 @@
 			gap: 3rem;
 			height: 100%;
 
-			li, li button {
+			li,
+			li button {
 				height: 100%;
 			}
 			li button {
@@ -140,7 +138,6 @@
 
 		.logo {
 			a {
-
 				display: flex;
 				align-items: center;
 
