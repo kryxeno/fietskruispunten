@@ -75,17 +75,24 @@
 					};
 				};
 
+				const icon = L.icon({
+					iconUrl:
+						"https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png",
+					iconSize: [40, 40]
+					});
+
 				const geojsonMarkerOptions = {
 					fillColor: 'var(--color-primary)',
 					color: 'none',
 					weight: 1,
 					opacity: 1,
-					fillOpacity: 0.5
+					fillOpacity: 0.5,
+					radius: 6
 				};
 				L.geoJSON(kruispunten, { style: setColor }).addTo(map);
 				L.geoJson(routepunten, {
 					pointToLayer: function (feature, latlng) {
-						return L.circle(latlng, geojsonMarkerOptions);
+						return L.circleMarker(latlng, geojsonMarkerOptions);
 					}
 				})
 				.addTo(map);
@@ -94,8 +101,27 @@
 						waypoints: [
 							L.latLng(startingCoordinates[0], startingCoordinates[1]),
 							L.latLng(endingCoordinates[0], endingCoordinates[1] )
-						]
+						],
+						routeWhileDragging: true,
+						routeDragInterval: 400,
+						show: false,
+						lineOptions: {
+							styles: [
+								{
+									color: 'var(--color-primary)',
+									opacity: 1,
+									weight: 4
+								}
+							]
+						},
+						createMarker: function(i, wp) {
+							return L.marker(wp.latLng, {
+								draggable: true,
+								icon
+							});
+						}
 					}).addTo(map);
+
 				});
 				map.on('mousemove', (e) => {
 					lat = e.latlng.lat.toFixed(6);
