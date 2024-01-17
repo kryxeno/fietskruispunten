@@ -5,6 +5,11 @@
 	import routepunten from '$lib/routes.js';
 	import 'leaflet/dist/leaflet.css';
 	import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
+	import vertrek from '$lib/images/vertrek.svg';
+	import bestemming from '$lib/images/bestemming.svg';
+	import Switch from '$lib/components/switch.svelte';
+	import BaseButton from '$lib/components/basebutton.svelte';
+	import { fietsvriendelijk } from '$lib/stores.js';
 
 	const startingCoordinates = [52.380957, 4.860238];
 	const endingCoordinates = [52.358933, 4.909387];
@@ -22,7 +27,7 @@
 				map = L.map(mapElement).setView(startingCoordinates, 14.5);
 				console.log('Loading Leaflet map.');
 				L
-					.tileLayer('https://{s}.data.amsterdam.nl/topo_wm_zw/{z}/{x}/{y}{r}.png', {
+					.tileLayer('https://{s}.data.amsterdam.nl/topo_wm_zw/{z}/{x}/{y}.png', {
 						attribution: `Topografische ondergrond © Gemeente Amsterdam`,
 						subdomains: ['t1', 't2', 't3', 't4'],
 						maxZoom: 21,
@@ -90,25 +95,43 @@
 					radius: 6
 				};
 				L.geoJSON(kruispunten, { style: setColor }).addTo(map);
-				L.geoJson(routepunten, {
+				const verkeersl =  L.geoJson(routepunten, {
 					pointToLayer: function (feature, latlng) {
-						return L.circleMarker(latlng, geojsonMarkerOptions);
+						return feature.properties.type === 'verkeersl' && L.circleMarker(latlng, geojsonMarkerOptions);
+					}
+				}).addTo(map);
+				const ongeval =L.geoJson(routepunten, {
+					pointToLayer: function (feature, latlng) {
+						return feature.properties.type === 'ongeval' && L.circleMarker(latlng, {...geojsonMarkerOptions,
+					fillColor: 'orange',
+						});
+					}
+				}).addTo(map);
+				const voorrang = L.geoJson(routepunten, {
+					pointToLayer: function (feature, latlng) {
+						return feature.properties.type === 'voorrang' && L.circleMarker(latlng, {...geojsonMarkerOptions,
+					fillColor: 'blue',
+						});
 					}
 				})
 				.addTo(map);
-				await import('leaflet-routing-machine').then(() => {
-					L.Routing.control({
+
+				console.log(verkeersl, ongeval, voorrang);
+				await import('leaflet-routing-machine').then(async() => {
+					await import('$lib/Control.Geocoder.js')
+					const control = L.Routing.control({
 						waypoints: [
 							L.latLng(startingCoordinates[0], startingCoordinates[1]),
 							L.latLng(endingCoordinates[0], endingCoordinates[1] )
 						],
+						addWaypoints: false,
 						routeWhileDragging: true,
+						geocoder: L.Control.Geocoder.nominatim(),
 						routeDragInterval: 400,
-						show: false,
 						lineOptions: {
 							styles: [
 								{
-									color: 'var(--color-primary)',
+									color: 'var(--color-blue)',
 									opacity: 1,
 									weight: 4
 								}
@@ -120,8 +143,10 @@
 								icon
 							});
 						}
-					}).addTo(map);
-
+					})
+					control._map = map;
+					const controlDiv = control.onAdd(map);
+					document.querySelector('.geocoder').prepend(controlDiv.firstChild);
 				});
 				map.on('mousemove', (e) => {
 					lat = e.latlng.lat.toFixed(6);
@@ -142,17 +167,121 @@
 		}
 	});
 </script>
+<section class="map-content">
+	<section class="sidebar">
+		<div class="container">
+			<h2>Plan je fietsroute</h2>
+		</div>
+		<hr/>
+		<div class="container">
+			<div class="inputs">
+				<div class="icons">
+					<div class="circle start">
+						<img src={vertrek} alt="starting point" />
+					</div>
+					<div />
+					<div class="circle end">
+						<img src={bestemming} alt="ending point" />
+					</div>
+				</div>
+				<div class="geocoder">
+					<input
+						type="datetime-local"
+						id="datePicker"
+						value={new Date().toISOString().slice(0, 16)}
+					/>
+				</div>
+			</div>
+		</div>
+		<hr/>
+		<div class="container half">
+			<Switch label='Fietsvriendelijk' checked={fietsvriendelijk} defaultChecked={true} />
+		</div>
+		<hr/>
+		<div class="container">
+			<BaseButton fill={true} label={'Berekenen'} on:click={() => console.log($fietsvriendelijk, 'kaas')}/>
+		</div>
+	</section>
+	<div bind:this={mapElement} class="map">
+		<div class="coordinates">
+			<p>{zoom}&nbsp;</p>
+			<p>- {lat}</p>
+			<p>- {lng}</p>
+		</div>
+	</div>
 
-<div bind:this={mapElement}></div>
-<div class="coordinates">
-	<p>{zoom}&nbsp;</p>
-	<p>- {lat}</p>
-	<p>- {lng}</p>
-</div>
+</section>
+
 
 <style lang="scss">
-	div {
+	@import '$lib/leaflet-style.css';
+	section.map-content {
+		display: grid;
+		grid-template-columns: 25rem 1fr;
 		height: 100%;
+
+		.sidebar {
+			display: flex;
+			flex-direction: column;
+			padding: 1rem;
+			z-index: 1000;
+			gap: 1rem;
+			overflow: hidden;
+
+			.container {
+				padding: 1rem 1rem;
+
+				&.half {
+					padding: 0.5rem 1rem;
+				}
+			}
+
+			.inputs {
+				display: flex;
+
+				.icons {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					padding: 0.5rem 1rem 0.5rem 0;
+
+					div {
+						height: 1.4rem;
+						border-right: 2px solid var(--color-grey);
+						width: 2px;
+					}
+					.circle {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						overflow: hidden;
+						width: 1.75rem;
+						height: 1.75rem;
+						border-radius: 50%;
+						background: var(--color-grey);
+
+						img {
+							translate: 1px 0;
+						}
+					}
+				}
+
+				.geocoder {
+					display: flex;
+					flex-direction: column;
+					gap: 0.6rem;
+
+					input {
+						border: 1px solid var(--color-grey);
+						padding: 0.5rem 1rem;
+					}
+				}
+			}
+		}
+
+		> .map {
+			height: 100%;
+		}
 	}
 
 	.coordinates {
@@ -184,4 +313,7 @@
 			}
 		}
 	}
+
+
+
 </style>

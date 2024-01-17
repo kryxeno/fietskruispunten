@@ -11,5 +11,13 @@ module.exports = {
 		browser: true,
 		es2017: true,
 		node: true
+	},
+	rules: {
+		'svelte/valid-compile': [
+			'error',
+			{
+				ignoreWarnings: true
+			}
+		]
 	}
 };

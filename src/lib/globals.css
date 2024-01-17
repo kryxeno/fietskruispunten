@@ -160,7 +160,7 @@ h4 {
 hr {
 	border: 0;
 	height: 1px;
-	background: var(--color-primary);
+	background: var(--color-grey);
 }
 
 :root {
@@ -170,12 +170,15 @@ hr {
 	--font-family: 'Poppins', sans-serif;
 
 	--color-primary: #ec0000;
-	--color-grey: #f1f1f1;
+	--color-grey-light: #f1f1f1;
+	--color-grey: #d9d9d9;
 	--color-grey-dark: #aaa;
 	--color-info: #ffc90e;
 
-	--border-radius-s: 3px;
-	--border-radius-l: 8px;
+	--color-success: #44b400;
+	--color-success-pastel: #a2cb97;
+
+	--color-blue: #000aff;
 }
 
 /*  =======CUSTOM ANIMATIONS======= */

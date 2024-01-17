@@ -1,5 +1,6 @@
 <script>
 	import LeafletMap from '$lib/LeafletMap.svelte';
+	import Introductie from '$lib/Introductie.svelte';
 	import xxx from '$lib/images/xxx.svg';
 
 	let page = 2;
@@ -46,15 +47,19 @@
 	</ul>
 </nav>
 <main>
-	<LeafletMap />
+	{#if page === 1}
+		<Introductie />
+	{:else if page === 2}
+		<LeafletMap />
+	{/if}
 </main>
 
 <style lang="scss">
-	@import './globals.css';
+	@import '$lib/globals.css';
 	nav {
 		position: relative;
 		z-index: 1000;
-		background-color: var(--color-grey);
+		background-color: var(--color-grey-light);
 		padding: 0 3rem;
 		height: var(--nav-menu-height);
 		box-shadow: 2px 2px 2px rgba(51, 51, 51, 0.3);
