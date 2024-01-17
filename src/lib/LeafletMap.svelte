@@ -125,7 +125,7 @@
 							L.latLng(endingCoordinates[0], endingCoordinates[1] )
 						],
 						addWaypoints: false,
-						routeWhileDragging: true,
+						draggableWaypoints: false,
 						geocoder: L.Control.Geocoder.nominatim(),
 						routeDragInterval: 400,
 						lineOptions: {
@@ -139,7 +139,7 @@
 						},
 						createMarker: function(i, wp) {
 							return L.marker(wp.latLng, {
-								draggable: true,
+								draggable: false,
 								icon
 							});
 						}
@@ -147,6 +147,10 @@
 					control._map = map;
 					const controlDiv = control.onAdd(map);
 					document.querySelector('.geocoder').prepend(controlDiv.firstChild);
+					document.querySelectorAll('.leaflet-routing-geocoder').forEach(node => {
+						node.childNodes[0].disabled = false
+						console.log(node.childNodes[0]);
+					})
 				});
 				map.on('mousemove', (e) => {
 					lat = e.latlng.lat.toFixed(6);
