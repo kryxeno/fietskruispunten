@@ -5,6 +5,10 @@
 	import routepunten from '$lib/routes.js';
 	import 'leaflet/dist/leaflet.css';
 	import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
+	import { getBikepathColor } from '$lib/utils/color.js';
+	import Coordinates from '$lib/components/Coordinates.svelte';
+	import Sidebar from '$lib/components/Sidebar.svelte';
+	import Routebalk from '$lib/components/Routebalk.svelte';
 
 	const startingCoordinates = [52.380957, 4.860238];
 	const endingCoordinates = [52.358933, 4.909387];
@@ -30,44 +34,9 @@
 					})
 					.addTo(map);
 
-				// L
-				// 	.marker(startingCoordinates)
-				// 	.addTo(map)
-				// 	.bindPopup('Nederland o Nederland')
-				// 	.openPopup();
-
 				const setColor = (feature) => {
-					const color = (feature) => {
-						switch (feature.properties.Layer) {
-							case '100_asfalt_auto_zwart_vlak':
-								return '#8c8c8c';
-							case '110_asfalt_fiets_zwart_vlak':
-								return '#8c8c8c';
-							case '120_asfalt_fiets_rood_vlak':
-								return '#ed7070';
-							case '130_tegelwerk_fiets_rood_vlak':
-								return '#ed9393';
-							case '200_klinker_rood_vlak':
-								return '#eb8b70';
-							case '210_tegelwerk_grijs_ vlak':
-								return '#c9c9c9';
-							case '25_niet_openbaar_wit_vlak':
-								return 'none';
-							case '300_ovbaan_zwart_vlak':
-								return '#8c8c8c';
-							case '450_Inritconstructie_grijs_vl':
-								return '#c9c9c9';
-							case '50_groenvak_vlak':
-								return '#9fe6a6';
-							case '500_markering_wit_vlak':
-								return '#f7f7f7';
-							case '800_bomen':
-								return '#29b000';
-							default:
-								return 'none';
-						}
-					};
-					const fill = color(feature);
+
+					const fill = getBikepathColor(feature);
 					return {
 						fillOpacity: '1',
 						fillColor: fill,
@@ -90,25 +59,43 @@
 					radius: 6
 				};
 				L.geoJSON(kruispunten, { style: setColor }).addTo(map);
-				L.geoJson(routepunten, {
+				const verkeersl =  L.geoJson(routepunten, {
 					pointToLayer: function (feature, latlng) {
-						return L.circleMarker(latlng, geojsonMarkerOptions);
+						return feature.properties.type === 'verkeersl' && L.circleMarker(latlng, geojsonMarkerOptions);
+					}
+				}).addTo(map);
+				const ongeval =L.geoJson(routepunten, {
+					pointToLayer: function (feature, latlng) {
+						return feature.properties.type === 'ongeval' && L.circleMarker(latlng, {...geojsonMarkerOptions,
+					fillColor: 'orange',
+						});
+					}
+				}).addTo(map);
+				const voorrang = L.geoJson(routepunten, {
+					pointToLayer: function (feature, latlng) {
+						return feature.properties.type === 'voorrang' && L.circleMarker(latlng, {...geojsonMarkerOptions,
+					fillColor: 'blue',
+						});
 					}
 				})
 				.addTo(map);
-				await import('leaflet-routing-machine').then(() => {
-					L.Routing.control({
+
+				console.log(verkeersl, ongeval, voorrang);
+				await import('leaflet-routing-machine').then(async() => {
+					await import('$lib/Control.Geocoder.js')
+					const control = L.Routing.control({
 						waypoints: [
 							L.latLng(startingCoordinates[0], startingCoordinates[1]),
 							L.latLng(endingCoordinates[0], endingCoordinates[1] )
 						],
-						routeWhileDragging: true,
+						addWaypoints: false,
+						draggableWaypoints: false,
+						geocoder: L.Control.Geocoder.nominatim(),
 						routeDragInterval: 400,
-						show: false,
 						lineOptions: {
 							styles: [
 								{
-									color: 'var(--color-primary)',
+									color: 'var(--color-blue)',
 									opacity: 1,
 									weight: 4
 								}
@@ -116,12 +103,16 @@
 						},
 						createMarker: function(i, wp) {
 							return L.marker(wp.latLng, {
-								draggable: true,
+								draggable: false,
 								icon
 							});
 						}
-					}).addTo(map);
-
+					})
+					const controlDiv = control.onAdd(map);
+					document.querySelector('.geocoder').prepend(controlDiv.firstChild);
+					document.querySelectorAll('.leaflet-routing-geocoder').forEach(node => {
+						node.childNodes[0].disabled = false
+					})
 				});
 				map.on('mousemove', (e) => {
 					lat = e.latlng.lat.toFixed(6);
@@ -143,45 +134,29 @@
 	});
 </script>
 
-<div bind:this={mapElement}></div>
-<div class="coordinates">
-	<p>{zoom}&nbsp;</p>
-	<p>- {lat}</p>
-	<p>- {lng}</p>
-</div>
+<section class="map-content">
+	<Sidebar />
+	<div class="main-content">
+		<Routebalk route={{start:"Charlotte de Bourbonstraat 2", eind:"HvA (TTH)"}}/>
+		<div bind:this={mapElement} class="map">
+			<Coordinates {zoom} {lat} {lng} />
+		</div>
+	</div>
+</section>
 
 <style lang="scss">
-	div {
+	section.map-content {
+		display: grid;
+		grid-template-columns: 25rem 1fr;
 		height: 100%;
-	}
 
-	.coordinates {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		height: fit-content;
-		background: #fff;
-		opacity: 0.7;
-		z-index: 1000;
-		padding: 0 0.5rem;
+		> .map {
+			height: 100%;
+		}
 
-		p {
-			color: rgb(51, 51, 51);
-			font-size: 0.7rem;
-			font-weight: 600;
-			line-height: 1rem;
-			white-space: nowrap;
-
-			&:not(:first-child) {
-				width: 4.4rem;
-			}
-
-			&:last-child {
-				width: 3.6rem;
-			}
+		.main-content {
+			display: grid;
+			grid-template-rows: 8rem 1fr;
 		}
 	}
 </style>

@@ -55,7 +55,7 @@
     gap: 3rem;
 
     p{
-      font-size: 0.9rem;
+      font-size: 0.8rem;
     }
 
     &.eind{
@@ -69,7 +69,7 @@
 
   .timeline-container {
     position: relative;
-    margin: 0 8rem;
+    margin: 0 3rem;
     height: 8rem;
     display: flex;
     align-items: center;

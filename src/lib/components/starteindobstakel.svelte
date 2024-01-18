@@ -19,7 +19,7 @@
 <style lang="scss"> 
     div{
         position: absolute;
-        width: 2rem;
+        width: 1.75rem;
         aspect-ratio: 1;
         
     }

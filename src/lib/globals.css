@@ -132,10 +132,12 @@ fieldset {
 
 a {
 	text-decoration: none;
+	color: var(--color-black);
 }
 
 input {
 	font-size: 0.9rem;
+	color: var(--color-black);
 }
 
 h1,
@@ -145,6 +147,11 @@ h4,
 h5,
 h6 {
 	font-weight: 500;
+	color: var(--color-black);
+}
+
+p {
+	color: var(--color-black);
 }
 
 h1 {
@@ -160,7 +167,7 @@ h4 {
 hr {
 	border: 0;
 	height: 1px;
-	background: var(--color-primary);
+	background: var(--color-grey);
 }
 
 :root {
@@ -170,12 +177,18 @@ hr {
 	--font-family: 'Poppins', sans-serif;
 
 	--color-primary: #ec0000;
-	--color-grey: #f1f1f1;
+	--color-grey-light: #f1f1f1;
+	--color-grey: #d9d9d9;
 	--color-grey-dark: #aaa;
 	--color-info: #ffc90e;
 
-	--border-radius-s: 3px;
-	--border-radius-l: 8px;
+	--color-success: #44b400;
+	--color-success-pastel: #a2cb97;
+
+	--color-blue: #000aff;
+	--color-blue-dark: #003687;
+
+	--color-black: #3f3f3f;
 }
 
 /*  =======CUSTOM ANIMATIONS======= */
