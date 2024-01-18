@@ -1,3 +1,7 @@
+.geocoder {
+	width: 100%;
+}
+
 .geocoder .leaflet-routing-geocoders {
 	border: none;
 	padding: 0;

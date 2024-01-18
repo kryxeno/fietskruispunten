@@ -18,8 +18,8 @@
                 <div class="obstakel__info">
                     <div class="obstakel__info-top">
                         <h3>{obstakel.name}</h3>
-                        <p>{metersToKilometers(obstakel.afstand)}</p>
-                        <Switch checked={obstakel.actief} />
+                        <p><span>&#9679;</span> {metersToKilometers(obstakel.afstand)}</p>
+                        <!-- <Switch checked={obstakel.actief} /> -->
                     </div>
                     <p>{obstakel.description}</p>
                 </div>
@@ -65,6 +65,9 @@
 
                     p {
                         font-size: 0.9rem;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
                     }
 
                     &-top {
@@ -77,10 +80,21 @@
                             font-size: 1rem;
                             font-weight: 400;
                             color: var(--color-blue-dark);
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            overflow: hidden;
                         }
 
                         p {
                             font-size: 1rem;
+
+                            span {
+                                display: inline-block;
+                                transform: translateY(-2px);
+                                color: var(--color-grey);
+                                font-size: 0.8rem;
+                                margin-right: 0.2rem;
+                            }
                         }
                     }
                 }

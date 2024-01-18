@@ -3,19 +3,23 @@
     export let label = undefined
     export let checked
 
-	const sw = createSwitch({ label, checked })
+    let checkedValue = checked && typeof checked.subscribe === 'function'
+        ? checked
+        : { subscribe: (fn) => fn(checked) };
 
-    $: checked = $sw.checked
+    console.log(checkedValue);
+	const sw = createSwitch({ label, checked: $checkedValue })
+
+    $: $checkedValue = $sw.checked
 
 </script>
 
-<div class="switch">
+<div class="switch" use:sw.toggle>
     {#if label}
         <label for="switch" class="switch-label">{label}</label>
     {/if}
 	<button
 		class="switch-button {$sw.checked && 'active'}"
-		use:sw.toggle
 	>
 	    <span class="{$sw.checked && 'active'}"/>
 	</button>
@@ -26,13 +30,14 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        width: 100%;
 
         .switch-button {
             display: flex;
             align-items: center;
             background-color: var(--color-grey);
-            height: 1.5rem;
-            width: 3.5rem;
+            height: 1.2rem;
+            width: 3rem;
             border-radius: 99px;
             transition: background-color 0.2s ;
             cursor: pointer;
@@ -44,13 +49,13 @@
             span {
                 display: block;
                 background-color: var(--color-grey-dark);
-                height: 2rem;
-                width: 2rem;
+                height: 1.8rem;
+                width: 1.8rem;
                 border-radius: 99px;
                 transition: translate 0.2s, background-color 0.2s ;
 
                 &.active {
-                    translate: 1.5rem 0;
+                    translate: 1.2rem 0;
                     background-color: var(--color-success);
                 }
             }
