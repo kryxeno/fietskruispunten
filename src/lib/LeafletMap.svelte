@@ -8,6 +8,7 @@
 	import { getBikepathColor } from '$lib/utils/color.js';
 	import Coordinates from '$lib/components/Coordinates.svelte';
 	import Sidebar from '$lib/components/Sidebar.svelte';
+	import Routebalk from '$lib/components/Routebalk.svelte';
 
 	const startingCoordinates = [52.380957, 4.860238];
 	const endingCoordinates = [52.358933, 4.909387];
@@ -135,8 +136,11 @@
 
 <section class="map-content">
 	<Sidebar />
-	<div bind:this={mapElement} class="map">
-		<Coordinates {zoom} {lat} {lng} />
+	<div class="main-content">
+		<Routebalk route={{start:"Charlotte de Bourbonstraat 2", eind:"HvA (TTH)"}}/>
+		<div bind:this={mapElement} class="map">
+			<Coordinates {zoom} {lat} {lng} />
+		</div>
 	</div>
 </section>
 
@@ -148,6 +152,11 @@
 
 		> .map {
 			height: 100%;
+		}
+
+		.main-content {
+			display: grid;
+			grid-template-rows: 8rem 1fr;
 		}
 	}
 </style>
