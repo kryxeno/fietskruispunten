@@ -22,7 +22,7 @@
 				map = L.map(mapElement).setView(startingCoordinates, 14.5);
 				console.log('Loading Leaflet map.');
 				L
-					.tileLayer('https://{s}.data.amsterdam.nl/topo_wm_zw/{z}/{x}/{y}{r}.png', {
+					.tileLayer('https://{s}.data.amsterdam.nl/topo_wm_zw/{z}/{x}/{y}.png', {
 						attribution: `Topografische ondergrond © Gemeente Amsterdam`,
 						subdomains: ['t1', 't2', 't3', 't4'],
 						maxZoom: 21,

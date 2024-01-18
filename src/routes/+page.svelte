@@ -46,7 +46,9 @@
 	</ul>
 </nav>
 <main>
+	<!-- <Test route={{start:"Charlotte de Bourbonstraat 2", eind:"HvA (TTH)"}}/> -->
 	<LeafletMap />
+
 </main>
 
 <style lang="scss">
