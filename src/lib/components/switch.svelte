@@ -2,11 +2,10 @@
 	import { createSwitch } from 'svelte-headlessui'
     export let label = undefined
     export let checked
-    export let defaultChecked = false
 
-	const sw = createSwitch({ label, checked: defaultChecked })
+	const sw = createSwitch({ label, checked })
 
-    $: $checked = $sw.checked
+    $: checked = $sw.checked
 
 </script>
 
@@ -17,7 +16,6 @@
 	<button
 		class="switch-button {$sw.checked && 'active'}"
 		use:sw.toggle
-        on:click={console.log($checked, $sw.checked)}
 	>
 	    <span class="{$sw.checked && 'active'}"/>
 	</button>

@@ -132,10 +132,12 @@ fieldset {
 
 a {
 	text-decoration: none;
+	color: var(--color-black);
 }
 
 input {
 	font-size: 0.9rem;
+	color: var(--color-black);
 }
 
 h1,
@@ -145,6 +147,11 @@ h4,
 h5,
 h6 {
 	font-weight: 500;
+	color: var(--color-black);
+}
+
+p {
+	color: var(--color-black);
 }
 
 h1 {
@@ -179,6 +186,9 @@ hr {
 	--color-success-pastel: #a2cb97;
 
 	--color-blue: #000aff;
+	--color-blue-dark: #003687;
+
+	--color-black: #3f3f3f;
 }
 
 /*  =======CUSTOM ANIMATIONS======= */
