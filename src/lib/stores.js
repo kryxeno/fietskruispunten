@@ -2,6 +2,7 @@ import { writable } from 'svelte/store';
 
 export const fietsvriendelijk = writable(true);
 export const expert = writable(false);
+export const expertKaart = writable(false);
 
 export const expertOptions = writable([
 	{
@@ -20,8 +21,6 @@ export const expertOptions = writable([
 		state: true
 	}
 ]);
-
-export const expertKaart = writable(false);
 
 export const obstakels = writable([
 	{

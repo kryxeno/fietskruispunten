@@ -23,7 +23,7 @@
 </main>
 
 <style lang="scss">
-	@import '$lib/globals.css';
+	@import '$lib/css/globals.css';
 	main {
 		position: relative;
 	}

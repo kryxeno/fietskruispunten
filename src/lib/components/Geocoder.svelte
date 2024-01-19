@@ -23,8 +23,6 @@
 </div>
 
 <style lang="scss">
-	@import '$lib/leaflet-style.css';
-
 	.geocoder {
 		display: flex;
 		flex-direction: column;
