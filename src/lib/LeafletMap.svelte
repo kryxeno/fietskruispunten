@@ -145,7 +145,6 @@
 </section>
 
 <style lang="scss">
-	@import '$lib/css/leaflet-tiles.css';
 	section.map-content {
 		display: grid;
 		grid-template-columns: 25rem 1fr;
