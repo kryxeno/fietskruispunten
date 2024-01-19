@@ -117,6 +117,7 @@
 		padding: 1rem;
 		z-index: 1000;
 		overflow: hidden;
+		border-right: 1px solid var(--color-grey);
 
 		hr {
 			flex-shrink: 0;

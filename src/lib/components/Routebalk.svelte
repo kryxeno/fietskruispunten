@@ -88,7 +88,7 @@
 		height: 8rem;
 		display: flex;
 		align-items: center;
-		border-left: 1px solid var(--color-grey);
+		border-bottom: 1px solid var(--color-grey);
 	}
 
 	.route-line {
