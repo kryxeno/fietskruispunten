@@ -11,8 +11,10 @@
 	};
 </script>
 
-<Navigation {setPage} {page} tabs={hasNavigation}/>
-<main style="height: calc(100% - var(--nav-height) {hasNavigation ? '- var(--nav-menu-height)' : ''});">
+<Navigation {setPage} {page} tabs={hasNavigation} />
+<main
+	style="height: calc(100% - var(--nav-height) {hasNavigation ? '- var(--nav-menu-height)' : ''});"
+>
 	{#if page === 1}
 		<Introductie />
 	{:else if page === 2}
