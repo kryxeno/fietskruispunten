@@ -29,7 +29,7 @@
 			transition: opacity 0.3s;
 
 			&:hover {
-				opacity: 0.8;
+				background-color: var(--color-primary) !important;
 			}
 		}
 	}

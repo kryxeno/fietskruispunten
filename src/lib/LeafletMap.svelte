@@ -1,15 +1,13 @@
 <script>
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
-	import kruispunten from '$lib/vlakken.js';
 	import routepunten from '$lib/routes.js';
-	import 'leaflet/dist/leaflet.css';
+	import '$lib/css/leaflet.css';
 	import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
-	import { getBikepathColor } from '$lib/utils/color.js';
 	import Coordinates from '$lib/components/Coordinates.svelte';
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import Routebalk from '$lib/components/Routebalk.svelte';
-	import { route } from '$lib/stores.js';
+	import { route, expert, expertKaart } from '$lib/stores.js';
 
 	const startingCoordinates = [52.380957, 4.860238];
 	const endingCoordinates = [52.358933, 4.909387];
@@ -34,15 +32,6 @@
 					minZoom: 11
 				}).addTo(map);
 
-				const setColor = (feature) => {
-					const fill = getBikepathColor(feature);
-					return {
-						fillOpacity: '1',
-						fillColor: fill,
-						color: 'none'
-					};
-				};
-
 				const icon = L.icon({
 					iconUrl:
 						'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png',
@@ -57,7 +46,6 @@
 					fillOpacity: 0.5,
 					radius: 6
 				};
-				L.geoJSON(kruispunten, { style: setColor }).addTo(map);
 				const verkeersl = L.geoJson(routepunten, {
 					pointToLayer: function (feature, latlng) {
 						return (
@@ -114,7 +102,6 @@
 					control.on('routesfound', (e) => {
 						const waypoints = control.getWaypoints();
 						$route = { ...e.routes[0], waypoints };
-						console.log({ ...e.routes[0], waypoints });
 					});
 					const controlDiv = control.onAdd(map);
 					geocoderElement = controlDiv.firstChild;
@@ -145,9 +132,13 @@
 
 <section class="map-content">
 	<Sidebar {geocoderElement} />
-	<div class="main-content">
+	<div class="main-content {$expert && !$expertKaart ? 'no-bg' : ''}">
 		<Routebalk />
-		<div bind:this={mapElement} class="map">
+		<div
+			bind:this={mapElement}
+			class="map"
+			style="background-color: {$expert && !$expertKaart ? 'var(--color-black)' : '#ddd'}"
+		>
 			<Coordinates {zoom} {lat} {lng} />
 		</div>
 	</div>
@@ -161,6 +152,7 @@
 
 		.map {
 			height: 100%;
+			transition: background-color 0.5s;
 		}
 
 		.main-content {

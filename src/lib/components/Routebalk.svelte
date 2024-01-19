@@ -1,13 +1,14 @@
 <script>
 	import ObstakelIcon from '$lib/components/ObstakelIcon.svelte';
 	import StartEindIcon from '$lib/components/StartEindIcon.svelte';
-	import { obstakels, route } from '$lib/stores.js';
+	import { obstakels, route, expert } from '$lib/stores.js';
 	import { metersToKilometers, secondsToMinutes } from '$lib/utils/numbers.js';
 	import { fade } from 'svelte/transition';
 
 	// Ik weet niet waarom deze soms niet werkt, maar dit is een workaround.
 	// De store update met een empty string maar toch krijgt hij de volledige string er in.
-	// Hij update alleen niet opnieuw wanneer deze 'volledig' is geupdate.
+	// Hij update alleen niet opnieuw wanneer deze 'volledig' is geupdate. Het is een beetje alsof hij de plek reserveert voor een string, maar niet de volledige string in een keer er in zit.
+	// Het is sowieso geen probleem wanneer de gebruiker een nieuwe locatie selecteert. Het gebeurt alleen wanneer er voorgeselecteerde waypoints onmount geselecteerd zijn.
 	setTimeout(() => {
 		$route = $route;
 	}, 1500);
@@ -19,7 +20,7 @@
 		<StartEindIcon type={'eind'} afstand={100} />
 		{#if $route}
 			{#each $obstakels as { type, afstand, actief }}
-				{#if actief}
+				{#if actief || $expert}
 					<div
 						class="route-icon"
 						transition:fade={{ duration: 200 }}
@@ -88,7 +89,7 @@
 		height: 8rem;
 		display: flex;
 		align-items: center;
-		border-left: 1px solid var(--color-grey);
+		border-bottom: 1px solid var(--color-grey);
 	}
 
 	.route-line {
