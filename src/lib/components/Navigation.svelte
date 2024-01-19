@@ -1,11 +1,11 @@
 <script>
 	import xxx from '$lib/images/xxx.svg';
-    export let page = 1;
-    export let setPage = () => {};
-    export let tabs = true;
+	export let page = 1;
+	export let setPage = () => {};
+	export let tabs = true;
 </script>
 
-<header style="{!tabs && 'border-bottom: 1px solid var(--color-grey);'}">
+<header style={!tabs && 'border-bottom: 1px solid var(--color-grey);'}>
 	<div class="logo">
 		<a
 			href="https://maps.amsterdam.nl/"
@@ -31,21 +31,22 @@
 	<button class="info">i</button>
 </header>
 {#if tabs}
-    <nav>
-        <ul>
-            <li>
-                <button on:click={() => setPage(1)} class={page === 1 && 'active'}>Introductie</button>
-            </li>
-            <li>
-                <button on:click={() => setPage(2)} class={page === 2 && 'active'}>
-                    Fietsroute planner
-                </button>
-            </li>
-        </ul>
-    </nav>
+	<nav>
+		<ul>
+			<li>
+				<button on:click={() => setPage(1)} class={page === 1 && 'active'}>Introductie</button>
+			</li>
+			<li>
+				<button on:click={() => setPage(2)} class={page === 2 && 'active'}>
+					Fietsroute planner
+				</button>
+			</li>
+		</ul>
+	</nav>
 {/if}
+
 <style lang="scss">
-    nav {
+	nav {
 		position: relative;
 		z-index: 1000;
 		background-color: var(--color-grey-light);

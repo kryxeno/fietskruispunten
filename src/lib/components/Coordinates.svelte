@@ -1,18 +1,17 @@
 <script>
-    export let zoom = 0;
-    export let lat = 0;
-    export let lng = 0;
-
+	export let zoom = 0;
+	export let lat = 0;
+	export let lng = 0;
 </script>
 
 <div class="coordinates">
-    <p>{zoom}&nbsp;</p>
-    <p>- {lat}</p>
-    <p>- {lng}</p>
+	<p>{zoom}&nbsp;</p>
+	<p>- {lat}</p>
+	<p>- {lng}</p>
 </div>
 
 <style lang="scss">
-    .coordinates {
+	.coordinates {
 		display: flex;
 		justify-content: center;
 		align-items: center;
