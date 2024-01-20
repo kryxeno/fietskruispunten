@@ -113,7 +113,7 @@
 	transition: opacity 0.5s;
 }
 .no-bg .leaflet-pane.leaflet-tile-pane {
-	opacity: 0.05;
+	opacity: 0.2;
 }
 .leaflet-overlay-pane {
 	z-index: 400;

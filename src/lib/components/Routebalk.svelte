@@ -1,7 +1,6 @@
 <script>
 	import ObstakelIcon from '$lib/components/ObstakelIcon.svelte';
-	import StartEindIcon from '$lib/components/StartEindIcon.svelte';
-	import { obstakels, route, expert } from '$lib/stores.js';
+	import { obstakels, route, expert, expertOptions, punten } from '$lib/stores.js';
 	import { metersToKilometers, secondsToMinutes } from '$lib/utils/numbers.js';
 	import { fade } from 'svelte/transition';
 
@@ -16,11 +15,26 @@
 
 <div class="timeline-container">
 	<div class="route-line">
-		<StartEindIcon type={'start'} afstand={0} />
-		<StartEindIcon type={'eind'} afstand={100} />
+		<div class="route-icon wp">
+			<ObstakelIcon type={'startpunt'} small />
+		</div>
+		<div class="route-icon wp" style="right: 0; ">
+			<ObstakelIcon type={'eindpunt'} small />
+		</div>
 		{#if $route}
 			{#each $obstakels as { type, afstand, actief }}
-				{#if actief || $expert}
+				{#if actief && !$expert}
+					<div
+						class="route-icon"
+						transition:fade={{ duration: 200 }}
+						style="left: {(afstand / $route.summary.totalDistance) * 100}%; "
+					>
+						<ObstakelIcon {type} />
+					</div>
+				{/if}
+			{/each}
+			{#each $punten as { type, afstand }}
+				{#if ($expertOptions.find((o) => o.type === type)?.state || type === 'werkzaamheden') && $expert}
 					<div
 						class="route-icon"
 						transition:fade={{ duration: 200 }}
@@ -104,7 +118,9 @@
 	.route-icon {
 		position: absolute;
 		translate: -50% 0;
-		width: 3rem;
-		aspect-ratio: 1;
+
+		&.wp {
+			translate: 0;
+		}
 	}
 </style>
