@@ -1,6 +1,7 @@
 <script>
 	import Switch from '$lib/components/Switch.svelte';
 	import { metersToKilometers } from '$lib/utils/numbers.js';
+	import ObstakelIcon from '$lib/components/ObstakelIcon.svelte';
 
 	export let obstakels = null;
 </script>
@@ -13,7 +14,7 @@
 		{#each $obstakels as obstakel}
 			<li class="obstakel container">
 				<div class="obstakel__icon">
-					<!-- <img src={obstakel.icon} alt={obstakel.name} /> -->
+					<ObstakelIcon type={obstakel.type} />
 				</div>
 				<div class="obstakel__info">
 					<div class="obstakel__info-top">
@@ -56,12 +57,18 @@
 				align-items: center;
 				border-top: 1px solid var(--color-grey);
 				background-color: #fafafa;
+				gap: 0.5rem;
+
+				&__icon {
+					flex-shrink: 0;
+				}
 
 				&__info {
 					display: flex;
 					flex-direction: column;
-					width: 100%;
 					gap: 0.5rem;
+					width: 100%;
+					overflow: hidden;
 
 					p {
 						font-size: 0.9rem;
@@ -72,7 +79,7 @@
 
 					&-top {
 						display: grid;
-						grid-template-columns: 1fr 5rem 3rem;
+						grid-template-columns: 1fr 5rem 2.2rem;
 						align-items: center;
 						gap: 0.5rem;
 

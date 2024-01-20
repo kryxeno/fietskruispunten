@@ -1,6 +1,5 @@
 <script>
-	import vertrek from '$lib/images/vertrek.svg';
-	import bestemming from '$lib/images/bestemming.svg';
+	import ObstakelIcon from '$lib/components/ObstakelIcon.svelte';
 	import editIcon from '$lib/images/edit.svg';
 	import Switch from '$lib/components/Switch.svelte';
 	import Basebutton from '$lib/components/Basebutton.svelte';
@@ -53,9 +52,10 @@
 		<section class="container half kaart-options">
 			<p>Laten zien op de kaart</p>
 			<ul>
-				{#each $expertOptions as { name, state }}
+				{#each $expertOptions as { name, type, state }}
 					<li>
 						<button>
+							<ObstakelIcon {type} stroke="transparent" />
 							<Checkbox label={name} bind:checked={state} />
 						</button>
 					</li>
@@ -70,20 +70,20 @@
 		<div class="container">
 			<div class="inputs">
 				<div class="icons">
-					<div class="circle start">
-						<img src={vertrek} alt="starting point" />
-					</div>
+					<ObstakelIcon type={'startpunt'} small />
 					<div />
-					<div class="circle end">
-						<img src={bestemming} alt="ending point" />
-					</div>
+					<ObstakelIcon type={'eindpunt'} small />
 				</div>
 				<Geocoder {geocoderElement} />
 			</div>
 		</div>
 		<hr />
 		<div class="container half">
-			<Switch label="Fietsvriendelijk" bind:checked={$fietsvriendelijk} />
+			<Switch
+				label="Fietsvriendelijk"
+				bind:checked={$fietsvriendelijk}
+				backgroundColor="var(--color-success)"
+			/>
 		</div>
 		<hr />
 		<div class="container half">
@@ -95,18 +95,6 @@
 		</div>
 		<ObstakelOverview {obstakels} />
 	{/if}
-	<!-- {#each $obstakels as obstakel}
-		<p>{obstakel.name} {obstakel.actief ? 'aan' : 'uit'}</p>
-	{/each}
-	{#each $expertOptions as option}
-		<p>{option.name} {option.state ? 'aan' : 'uit'}</p>
-	{/each}
-	{#if $fietsvriendelijk}
-		<p>fietsvriendelijk aan</p>
-	{/if}
-	{#if $expertKaart}
-		<p>expertKaart aan</p>
-	{/if} -->
 </section>
 
 <style lang="scss">
@@ -170,6 +158,7 @@
 					border: 1px solid var(--color-grey);
 					padding: 1rem;
 					width: calc(100% - 2rem);
+					gap: 0.5rem;
 				}
 			}
 		}
@@ -182,25 +171,12 @@
 				flex-direction: column;
 				align-items: center;
 				padding: 0.5rem 1rem 0.5rem 0;
+				flex-shrink: 0;
 
 				div {
 					height: 1.4rem;
 					border-right: 2px solid var(--color-grey);
 					width: 2px;
-				}
-				.circle {
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					overflow: hidden;
-					width: 1.75rem;
-					height: 1.75rem;
-					border-radius: 50%;
-					background: var(--color-grey);
-
-					img {
-						translate: 1px 0;
-					}
 				}
 			}
 		}

@@ -8,9 +8,11 @@
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import Routebalk from '$lib/components/Routebalk.svelte';
 	import { route, expert, expertKaart } from '$lib/stores.js';
+	import startpunt from '$lib/images/startpunt.svg';
+	import eindpunt from '$lib/images/eindpunt.svg';
 
-	const startingCoordinates = [52.380957, 4.860238];
-	const endingCoordinates = [52.358933, 4.909387];
+	const endingCoordinates = [52.380957, 4.860238];
+	const startingCoordinates = [52.358933, 4.909387];
 
 	let mapElement;
 	let map;
@@ -31,12 +33,6 @@
 					maxZoom: 21,
 					minZoom: 11
 				}).addTo(map);
-
-				const icon = L.icon({
-					iconUrl:
-						'https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678111-map-marker-512.png',
-					iconSize: [40, 40]
-				});
 
 				const geojsonMarkerOptions = {
 					fillColor: 'var(--color-primary)',
@@ -92,11 +88,26 @@
 								}
 							]
 						},
-						createMarker: function (i, wp) {
-							return L.marker(wp.latLng, {
-								draggable: false,
-								icon
-							});
+						createMarker: (i, wp) => {
+							const totalWaypoints = control.getWaypoints().length;
+							if (i === 0) {
+								return L.marker(wp.latLng, {
+									draggable: false,
+									icon: L.icon({
+										iconUrl: startpunt,
+										iconSize: [28, 28]
+									})
+								});
+							}
+							if (i === totalWaypoints - 1) {
+								return L.marker(wp.latLng, {
+									draggable: false,
+									icon: L.icon({
+										iconUrl: eindpunt,
+										iconSize: [28, 28]
+									})
+								});
+							}
 						}
 					});
 					control.on('routesfound', (e) => {
@@ -137,7 +148,7 @@
 		<div
 			bind:this={mapElement}
 			class="map"
-			style="background-color: {$expert && !$expertKaart ? 'var(--color-black)' : '#ddd'}"
+			style="background-color: {$expert && !$expertKaart ? '#000' : '#ddd'}"
 		>
 			<Coordinates {zoom} {lat} {lng} />
 		</div>
