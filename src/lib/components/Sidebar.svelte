@@ -9,7 +9,8 @@
 		expertKaart,
 		obstakels,
 		expertOptions,
-		route
+		route,
+		punten
 	} from '$lib/stores.js';
 	import ObstakelOverview from '$lib/components/ObstakelOverview.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
@@ -56,6 +57,7 @@
 					<li>
 						<button>
 							<ObstakelIcon {type} stroke="transparent" />
+							<p>({$punten.filter((p) => p.type === type).length})</p>
 							<Checkbox label={name} bind:checked={state} />
 						</button>
 					</li>
@@ -159,6 +161,10 @@
 					padding: 1rem;
 					width: calc(100% - 2rem);
 					gap: 0.5rem;
+
+					p {
+						white-space: nowrap;
+					}
 				}
 			}
 		}
