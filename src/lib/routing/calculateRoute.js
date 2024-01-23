@@ -1,9 +1,8 @@
 export const getRoutePoints = async (points) => {
-	const stoplichten = points.filter((point) => point.properties.type === 'verkeersl');
-	const voorrang = points.filter((point) => point.properties.type === 'voorrang');
-	const ongevallen = points.filter((point) => point.properties.type === 'ongeval');
+	const stoplicht = points.filter((point) => point.properties.type === 'stoplicht');
+	const kruispunt = points.filter((point) => point.properties.type === 'kruispunt');
 
-	return { stoplichten, voorrang, ongevallen };
+	return { stoplicht, kruispunt };
 };
 
 const adjustTable = {
@@ -55,6 +54,50 @@ const alternativeCoordinates = {
 	124: { coordinates: null }
 };
 
+const calculateDanger = (waypoint, points) => {
+	// returns 0, 1, or 2 depending on the danger or waiting time
+	const gevaarlijk = 30;
+	const gemiddeld = 15;
+	if (waypoint.properties.type === 'stoplicht') {
+		// console.log(waypoint.properties);
+
+		waypoint.properties.related?.forEach((wp) => {
+			const relatedWp = points.find((waypoint) => waypoint.properties.id === wp);
+			waypoint.properties['#ongeval'] += relatedWp.properties['#ongeval'] ?? 0;
+			waypoint.properties.gewonden += relatedWp.properties.gewonden ?? 0;
+			waypoint.properties.deelconfli += relatedWp.properties.deelconfli ?? 0;
+		});
+		const {
+			deelconfli: deelconflict,
+			'doorrijd%': roodRijders,
+			'#ongeval': ongevallen,
+			gewonden
+		} = waypoint.properties;
+
+		const deelconflictScore =
+			(deelconflict / 2) * 25 +
+			(roodRijders / 100) * 25 +
+			(ongevallen / 6) * 40 +
+			(gewonden / 3) * 10;
+
+		// console.log(deelconflictScore, { deelconflict, roodRijders, ongevallen, gewonden });
+
+		if (deelconflictScore >= gevaarlijk) return 2;
+		if (deelconflictScore >= gemiddeld) return 1;
+		return 0;
+	} else if (waypoint.properties.type === 'kruispunt') {
+		const { deelconfli: deelconflict, '#ongeval': ongevallen, gewonden } = waypoint.properties;
+
+		const deelconflictScore = (deelconflict / 2) * 30 + (ongevallen / 6) * 50 + (gewonden / 3) * 20;
+
+		if (deelconflictScore >= gevaarlijk) return 2;
+		if (deelconflictScore >= gemiddeld) return 1;
+		return 0;
+	} else if (waypoint.properties.type === 'werkzaamheden') {
+		return 1;
+	}
+};
+
 export const getWaypointsById = async (ids, points) => {
 	if (ids.length === 0 || points.length === 0) return [];
 
@@ -66,7 +109,7 @@ export const getWaypointsById = async (ids, points) => {
 				const relatedWp = points.find((waypoint) => waypoint.properties.id === relatedId);
 				if (relatedWp) {
 					if (!wp.properties.related) wp.properties.related = [];
-					if (wp.properties.related.includes(relatedWp)) return;
+					if (wp.properties.related.includes(relatedWp.properties.id)) return;
 					else wp.properties.related.push(relatedWp.properties.id);
 				}
 			});
@@ -74,8 +117,11 @@ export const getWaypointsById = async (ids, points) => {
 			wp.geometry.coordinates = adjustTable[id.toString()];
 		}
 		wp.properties.rerouted = false;
+		wp.properties.danger = calculateDanger(wp, points);
+
 		return wp;
 	});
+	console.log(waypoints);
 	return waypoints;
 };
 

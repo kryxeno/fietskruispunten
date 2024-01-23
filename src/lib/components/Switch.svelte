@@ -4,9 +4,10 @@
 	export let label = undefined;
 	export let checked;
 	export let backgroundColor = 'var(--color-blue-dark)';
+	export let invert = false;
 
-	const sw = createSwitch({ label, checked });
-	$: checked = $sw.checked;
+	const sw = createSwitch({ label, checked: invert ? !checked : checked });
+	$: checked = invert ? !$sw.checked : $sw.checked;
 </script>
 
 <div class="switch" use:sw.toggle>

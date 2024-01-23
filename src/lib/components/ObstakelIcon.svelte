@@ -5,6 +5,7 @@
 	import startpunt from '$lib/image-components/startpunt.svelte';
 	import eindpunt from '$lib/image-components/eindpunt.svelte';
 	import werkzaamheden from '$lib/image-components/werkzaamheden.svelte';
+	import { fade } from 'svelte/transition';
 
 	export let type = 'stoplicht';
 	export let scale = 1;
@@ -22,11 +23,13 @@
 	};
 </script>
 
-<svelte:component
-	this={icons[type]}
-	style="scale: {scale}; width: {small ? '1.75rem' : '2.5rem'}; height: {small
-		? '1.75rem'
-		: '2.5rem'}; transition: scale 0.2s ease-in-out; flex-shrink: 0;"
-	{stroke}
-	{fill}
-/>
+<div transition:fade={{ duration: 200 }}>
+	<svelte:component
+		this={icons[type]}
+		style="scale: {scale}; width: {small ? '1.75rem' : '2.5rem'}; height: {small
+			? '1.75rem'
+			: '2.5rem'}; transition: scale 0.2s ease-in-out; flex-shrink: 0;"
+		stroke={typeof stroke === 'number' ? `var(--color-${stroke}` : stroke}
+		{fill}
+	/>
+</div>

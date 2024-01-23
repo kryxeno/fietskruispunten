@@ -7,7 +7,7 @@
 	import Coordinates from '$lib/components/Coordinates.svelte';
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import Routebalk from '$lib/components/Routebalk.svelte';
-	import { route, expert, expertKaart } from '$lib/stores.js';
+	import { route, expert, expertKaart, expertOptions, punten } from '$lib/stores.js';
 	import startpunt from '$lib/images/startpunt.svg';
 	import eindpunt from '$lib/images/eindpunt.svg';
 	import {
@@ -15,7 +15,7 @@
 		getWaypointsById,
 		getCoordinatesById
 	} from '$lib/routing/calculateRoute.js';
-	import ObstakelIcon from './components/ObstakelIcon.svelte';
+	import { updateMarkers } from '$lib/routing/marker.js';
 
 	const endingCoordinates = [52.380957, 4.860238];
 	const startingCoordinates = [52.358933, 4.909387];
@@ -26,11 +26,12 @@
 	let lng = startingCoordinates[1];
 	let zoom = 14.5;
 	let geocoderElement;
+	let L;
 
 	onMount(async () => {
 		if (browser) {
 			await import('leaflet').then(async (leaflet) => {
-				const L = leaflet.default;
+				L = leaflet.default;
 				map = L.map(mapElement).setView(startingCoordinates, 14.5);
 				console.log('Loading Leaflet map.');
 				L.tileLayer('https://{s}.data.amsterdam.nl/topo_wm_zw/{z}/{x}/{y}.png', {
@@ -40,49 +41,49 @@
 					minZoom: 11
 				}).addTo(map);
 
-				const { stoplichten, voorrang, ongevallen } = await getRoutePoints(routepunten);
-				// console.log(stoplichten, kruispunten);
+				const { stoplicht, kruispunt } = await getRoutePoints(routepunten);
+				// console.log(stoplicht, kruispunten);
 				const intermediaryWaypointIds = [
 					41024, 41023, 105, 52622, 54122, 58922, 57822, 104, 113, 50222, 15822, 114, 12722, 13022,
 					13028, 125, 124
 				];
 
-				const actieveWaypoints = await getWaypointsById(intermediaryWaypointIds, [
-					...stoplichten,
-					...voorrang,
-					...ongevallen
-				]);
-				L.geoJson(actieveWaypoints, {
-					pointToLayer: (feature, latlng) => {
-						const container = L.DomUtil.create('div', 'leaflet-marker-container');
+				$punten = await getWaypointsById(intermediaryWaypointIds, [...stoplicht, ...kruispunt]);
 
-						// Create a Svelte component instance
-						const obstakelIconComponent = new ObstakelIcon({
-							target: container,
-							props: {
-								type: 'stoplicht'
-							}
-						});
+				// L.geoJson($punten, {
+				// 	pointToLayer: (feature, latlng) => {
+				// 		const container = L.DomUtil.create('div', 'leaflet-marker-container');
 
-						// Get the HTML content of the Svelte component
-						const iconHtml = container.innerHTML;
+				// 		// Create a Svelte component instance
+				// 		const obstakelIconComponent = new ObstakelIcon({
+				// 			target: container,
+				// 			props: {
+				// 				type: 'stoplicht'
+				// 			}
+				// 		});
 
-						// Clean up the Svelte component
-						obstakelIconComponent.$destroy();
+				// 		// Get the HTML content of the Svelte component
+				// 		const iconHtml = container.innerHTML;
 
-						const html = L.divIcon({
-							html: iconHtml,
-							className: 'route-marker'
-						});
-						const marker = L.marker(latlng, {
-							icon: html
-						});
-						marker.on('click', () => {
-							console.log(feature.properties);
-						});
-						return marker;
-					}
-				}).addTo(map);
+				// 		// Clean up the Svelte component
+				// 		obstakelIconComponent.$destroy();
+
+				// 		const html = L.divIcon({
+				// 			html: !feature.properties.rerouted ? iconHtml : '',
+				// 			className: 'route-marker'
+				// 		});
+
+				// 		// html: !feature.properties.rerouted ? iconHtml : '',
+
+				// 		const marker = L.marker(latlng, {
+				// 			icon: html
+				// 		});
+				// 		marker.on('click', () => {
+				// 			console.log(feature.properties);
+				// 		});
+				// 		return marker;
+				// 	}
+				// }).addTo(map);
 
 				// L.geoJson([...voorrang, ...ongevallen], {
 				// 	pointToLayer: (feature, latlng) => {
@@ -100,7 +101,7 @@
 				// 	}
 				// }).addTo(map);
 
-				// L.geoJson(stoplichten, {
+				// L.geoJson(stoplicht, {
 				// 	pointToLayer: (feature, latlng) => {
 				// 		const html = L.divIcon({
 				// 			html: `<p>${feature.properties.id}</p>`,
@@ -117,12 +118,9 @@
 				// }).addTo(map);
 
 				const waypoints = await getCoordinatesById(intermediaryWaypointIds, [
-					...stoplichten,
-					...voorrang,
-					...ongevallen
+					...stoplicht,
+					...kruispunt
 				]);
-
-				console.log({ waypoints });
 
 				await import('leaflet-routing-machine').then(async () => {
 					await import('$lib/routing/Control.Geocoder.js');
@@ -172,6 +170,7 @@
 					});
 					const controlDiv = control.onAdd(map);
 					geocoderElement = controlDiv.firstChild;
+					// eslint-disable-next-line no-unused-vars
 					Object.entries(geocoderElement.children).forEach(([_, node]) => {
 						node.disabled = false;
 						if (node.firstChild.placeholder && node.firstChild.placeholder.startsWith('Via'))
@@ -201,6 +200,12 @@
 			map.remove();
 		}
 	});
+
+	$: {
+		if ($punten && map) {
+			updateMarkers(L, map, $punten, $expertOptions, $expert);
+		}
+	}
 </script>
 
 <section class="map-content">
@@ -241,6 +246,11 @@
 		justify-content: center;
 		align-items: center;
 		translate: -50% -50%;
+	}
+
+	:global(.fade-in > div) {
+		opacity: 0;
+		animation: fadeIn 0.8s forwards;
 	}
 	:global(.stopl) {
 		border-color: var(--color-blue);

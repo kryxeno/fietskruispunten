@@ -7,7 +7,6 @@
 		fietsvriendelijk,
 		expert,
 		expertKaart,
-		obstakels,
 		expertOptions,
 		route,
 		punten
@@ -32,8 +31,14 @@
 					<img src={editIcon} alt="edit route" />
 				</div>
 				<section class="route-display__locations">
-					<p><span>Van</span> {$route.waypoints[0].name}</p>
-					<p><span>Naar</span> {$route.waypoints.at(-1).name}</p>
+					<p>
+						<span>Van</span>
+						{$route.waypoints[0].name !== '' ? $route.waypoints[0].name : 'Loading...'}
+					</p>
+					<p>
+						<span>Naar</span>
+						{$route.waypoints.at(-1).name !== '' ? $route.waypoints.at(-1).name : 'Loading...'}
+					</p>
 				</section>
 			</div>
 		</div>
@@ -55,15 +60,27 @@
 			<ul>
 				{#each $expertOptions as { name, type, state }}
 					<li>
-						<button>
+						<button class={!$punten.find((p) => p.properties.type === type) && 'disabled'}>
 							<ObstakelIcon {type} stroke="transparent" />
-							<p>({$punten.filter((p) => p.type === type).length})</p>
+							<p>
+								({$punten.filter((p) => p.properties.type === type && !p.properties.rerouted)
+									.length})
+							</p>
 							<Checkbox label={name} bind:checked={state} />
 						</button>
 					</li>
 				{/each}
 			</ul>
 		</section>
+		<ul>
+			{#each $punten as { properties }}
+				<li>
+					<button>
+						<Checkbox label={properties.type} bind:checked={properties.rerouted} />
+					</button>
+				</li>
+			{/each}
+		</ul>
 	{:else}
 		<div style="padding: 1rem 1rem 0 1rem;">
 			<h2>Mijn fietsroute</h2>
@@ -95,7 +112,7 @@
 				on:click={changeMode}
 			/>
 		</div>
-		<ObstakelOverview {obstakels} />
+		<ObstakelOverview />
 	{/if}
 </section>
 
@@ -161,6 +178,11 @@
 					padding: 1rem;
 					width: calc(100% - 2rem);
 					gap: 0.5rem;
+
+					&.disabled {
+						opacity: 0.5;
+						pointer-events: none;
+					}
 
 					p {
 						white-space: nowrap;
