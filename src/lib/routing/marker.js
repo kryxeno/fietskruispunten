@@ -1,5 +1,4 @@
 import ObstakelIcon from '$lib/components/ObstakelIcon.svelte';
-import { fade } from 'svelte/transition';
 
 let markerLayer = null;
 let markers = {}; // Object to store markers with their unique identifier
