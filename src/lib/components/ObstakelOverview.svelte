@@ -2,7 +2,7 @@
 	import Switch from '$lib/components/Switch.svelte';
 	import { metersToKilometers } from '$lib/utils/numbers.js';
 	import ObstakelIcon from '$lib/components/ObstakelIcon.svelte';
-	import { punten, route } from '$lib/stores.js';
+	import { punten, route, fietsvriendelijk } from '$lib/stores.js';
 
 	const getObstakels = () => {
 		return $punten.filter((punt) => punt.properties.danger === 2);
@@ -65,7 +65,7 @@
 										...
 									{/if}
 								</p>
-								<Switch bind:checked={punt.rerouted} invert />
+								<Switch bind:checked={punt.rerouted} invert disabled={$fietsvriendelijk} />
 							</div>
 							<p>{generateDescription(punt)}</p>
 						</div>

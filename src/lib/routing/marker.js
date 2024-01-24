@@ -1,4 +1,5 @@
 import ObstakelIcon from '$lib/components/ObstakelIcon.svelte';
+import { activePoint, expert as expertState } from '$lib/stores.js';
 
 let markerLayer = null;
 let markers = {}; // Object to store markers with their unique identifier
@@ -19,7 +20,6 @@ export const updateMarkers = (L, map, punten, expertOptions, expert) => {
 
 			const container = L.DomUtil.create('div', 'leaflet-marker-container');
 
-			// Create a Svelte component instance
 			const obstakelIconComponent = new ObstakelIcon({
 				target: container,
 				props: {
@@ -27,7 +27,6 @@ export const updateMarkers = (L, map, punten, expertOptions, expert) => {
 					stroke: isDisabled ? feature.properties.danger : 'var(--color-grey)'
 				}
 			});
-
 			const iconHtml = container.innerHTML;
 
 			obstakelIconComponent.$destroy();
@@ -48,7 +47,17 @@ export const updateMarkers = (L, map, punten, expertOptions, expert) => {
 				});
 
 				marker.on('click', () => {
-					console.log(feature.properties);
+					const unsubscribe = expertState.subscribe((value) => {
+						value && activePoint.set(feature.properties.id);
+					});
+					unsubscribe();
+				});
+
+				marker.on('mouseover', () => {
+					const unsubscribe = expertState.subscribe((value) => {
+						show && !value && activePoint.set(feature.properties.id);
+					});
+					unsubscribe();
 				});
 
 				markers[markerId] = marker;

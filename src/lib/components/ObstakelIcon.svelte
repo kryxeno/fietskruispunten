@@ -24,13 +24,13 @@
 	};
 </script>
 
-<div transition:fade={{ duration: transition ? 200 : 0 }}>
+<button transition:fade={{ duration: transition ? 200 : 0 }} on:click>
 	<svelte:component
 		this={icons[type]}
 		style="scale: {scale}; width: {small ? '1.75rem' : '2.5rem'}; height: {small
 			? '1.75rem'
-			: '2.5rem'}; transition: scale 0.2s ease-in-out; flex-shrink: 0;"
+			: '2.5rem'}; transition: scale 0.2s ease-in-out; flex-shrink: 0; cursor:pointer;"
 		stroke={typeof stroke === 'number' ? `var(--color-${stroke}` : stroke}
 		{fill}
 	/>
-</div>
+</button>

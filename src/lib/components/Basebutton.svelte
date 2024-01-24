@@ -3,9 +3,10 @@
 	export let backgroundColor = 'var(--color-primary)';
 	export let color = '#fff';
 	export let fill = true;
+	export let disabled = false;
 </script>
 
-<section class="button-container">
+<section class="button-container {disabled ? 'disabled' : ''}">
 	<button
 		on:click
 		style="background-color: {backgroundColor}; color: {color}; {!fill && 'width: fit-content'}"
@@ -17,6 +18,16 @@
 <style lang="scss">
 	.button-container {
 		width: 100%;
+
+		&.disabled {
+			opacity: 0.5;
+			pointer-events: none;
+
+			button {
+				background-color: var(--color-grey) !important;
+				color: black !important;
+			}
+		}
 
 		button {
 			padding: 0.8rem 1rem;

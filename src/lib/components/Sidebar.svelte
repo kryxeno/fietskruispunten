@@ -13,10 +13,33 @@
 	} from '$lib/stores.js';
 	import ObstakelOverview from '$lib/components/ObstakelOverview.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
-	import Geocoder from './Geocoder.svelte';
+	import Geocoder from '$lib/components/Geocoder.svelte';
 
 	export let geocoderElement;
 	const changeMode = () => ($expert = !$expert);
+
+	$: {
+		if ($fietsvriendelijk && $punten) {
+			punten.set(
+				$punten.map((punt) => {
+					if (punt.properties.danger === 2) {
+						return {
+							...punt,
+							properties: {
+								...punt.properties,
+								rerouted: true
+							}
+						};
+					} else {
+						return punt;
+					}
+				})
+			);
+			// 	$punten
+			// 		.filter((p) => p.properties.danger === 2)
+			// 		.forEach((punt) => (punt.properties.rerouted = true));
+		}
+	}
 </script>
 
 <section class="sidebar">
@@ -72,15 +95,6 @@
 				{/each}
 			</ul>
 		</section>
-		<ul>
-			{#each $punten as { properties }}
-				<li>
-					<button>
-						<Checkbox label={properties.type} bind:checked={properties.rerouted} />
-					</button>
-				</li>
-			{/each}
-		</ul>
 	{:else}
 		<div style="padding: 1rem 1rem 0 1rem;">
 			<h2>Mijn fietsroute</h2>

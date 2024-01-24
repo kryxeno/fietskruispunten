@@ -25,3 +25,5 @@ export const expertOptions = writable([
 export const punten = writable(null);
 
 export const route = writable(null);
+
+export const activePoint = writable(null);

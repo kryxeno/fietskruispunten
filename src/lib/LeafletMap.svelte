@@ -7,7 +7,7 @@
 	import Coordinates from '$lib/components/Coordinates.svelte';
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import Routebalk from '$lib/components/Routebalk.svelte';
-	import { route, expert, expertKaart, expertOptions, punten } from '$lib/stores.js';
+	import { route, expert, expertKaart, expertOptions, punten, activePoint } from '$lib/stores.js';
 	import startpunt from '$lib/images/startpunt.svg';
 	import eindpunt from '$lib/images/eindpunt.svg';
 	import {
@@ -17,6 +17,8 @@
 		updateCoordinatesByWaypoints
 	} from '$lib/routing/calculateRoute.js';
 	import { updateMarkers } from '$lib/routing/marker.js';
+	import Obstakelinfo2 from '$lib/components/Obstakelinfo2.svelte';
+	import Obstakelinfo from '$lib/components/Obstakelinfo.svelte';
 
 	const endingCoordinates = [52.380957, 4.860238];
 	const startingCoordinates = [52.358933, 4.909387];
@@ -44,80 +46,13 @@
 				}).addTo(map);
 
 				const { stoplicht, kruispunt } = await getRoutePoints(routepunten);
-				// console.log(stoplicht, kruispunten);
+
 				const intermediaryWaypointIds = [
 					41024, 41023, 105, 52622, 54122, 58922, 57822, 104, 113, 50222, 15822, 114, 12722, 13022,
 					13028, 125, 124
 				];
 
 				$punten = await getWaypointsById(intermediaryWaypointIds, [...stoplicht, ...kruispunt]);
-
-				// L.geoJson($punten, {
-				// 	pointToLayer: (feature, latlng) => {
-				// 		const container = L.DomUtil.create('div', 'leaflet-marker-container');
-
-				// 		// Create a Svelte component instance
-				// 		const obstakelIconComponent = new ObstakelIcon({
-				// 			target: container,
-				// 			props: {
-				// 				type: 'stoplicht'
-				// 			}
-				// 		});
-
-				// 		// Get the HTML content of the Svelte component
-				// 		const iconHtml = container.innerHTML;
-
-				// 		// Clean up the Svelte component
-				// 		obstakelIconComponent.$destroy();
-
-				// 		const html = L.divIcon({
-				// 			html: !feature.properties.rerouted ? iconHtml : '',
-				// 			className: 'route-marker'
-				// 		});
-
-				// 		// html: !feature.properties.rerouted ? iconHtml : '',
-
-				// 		const marker = L.marker(latlng, {
-				// 			icon: html
-				// 		});
-				// 		marker.on('click', () => {
-				// 			console.log(feature.properties);
-				// 		});
-				// 		return marker;
-				// 	}
-				// }).addTo(map);
-
-				// L.geoJson([...voorrang, ...ongevallen], {
-				// 	pointToLayer: (feature, latlng) => {
-				// 		const html = L.divIcon({
-				// 			html: `<p>${feature.properties.id}</p>`,
-				// 			className: 'route-marker kruisp'
-				// 		});
-				// 		const marker = L.marker(latlng, {
-				// 			icon: html
-				// 		});
-				// 		marker.on('click', () => {
-				// 			console.log(feature.properties);
-				// 		});
-				// 		return marker;
-				// 	}
-				// }).addTo(map);
-
-				// L.geoJson(stoplicht, {
-				// 	pointToLayer: (feature, latlng) => {
-				// 		const html = L.divIcon({
-				// 			html: `<p>${feature.properties.id}</p>`,
-				// 			className: 'route-marker stopl'
-				// 		});
-				// 		const marker = L.marker(latlng, {
-				// 			icon: html
-				// 		});
-				// 		marker.on('click', () => {
-				// 			console.log(feature.properties);
-				// 		});
-				// 		return marker;
-				// 	}
-				// }).addTo(map);
 
 				const waypoints = await getCoordinatesById(intermediaryWaypointIds, [
 					...stoplicht,
@@ -183,7 +118,7 @@
 				});
 
 				map.on('click', (e) => {
-					console.log([e.latlng.lng, e.latlng.lat]);
+					if (e.originalEvent.target.classList.contains('map')) $activePoint = null;
 				});
 			});
 		}
@@ -213,18 +148,47 @@
 		};
 		if (L && control) update();
 	}
+	let popupCoordinaten = 'left: 0px; top: 0px;';
+
+	$: {
+		map &&
+			map.on('move', function () {
+				if ($activePoint && map && $punten) {
+					const containerpoint = map.latLngToContainerPoint(
+						$punten.find((p) => p.properties.id === $activePoint).geometry.coordinates
+					);
+					popupCoordinaten = `left:${containerpoint.x}px; top:${containerpoint.y}px;`;
+				}
+			});
+		if ($activePoint && map && $punten) {
+			const containerpoint = map.latLngToContainerPoint(
+				$punten.find((p) => p.properties.id === $activePoint).geometry.coordinates
+			);
+			popupCoordinaten = `left:${containerpoint.x}px; top:${containerpoint.y}px;`;
+		}
+	}
 </script>
 
 <section class="map-content">
 	<Sidebar {geocoderElement} />
 	<div class="main-content {$expert && !$expertKaart ? 'no-bg' : ''}">
 		<Routebalk />
-		<div
-			bind:this={mapElement}
-			class="map"
-			style="background-color: {$expert && !$expertKaart ? '#000' : '#ddd'}"
-		>
-			<Coordinates {zoom} {lat} {lng} />
+		<div class="map-toggle">
+			{#if $expert && $activePoint}
+				<Obstakelinfo2 />
+			{/if}
+			<div
+				bind:this={mapElement}
+				class="map"
+				style="background-color: {$expert && !$expertKaart ? '#000' : '#ddd'}"
+			>
+				{#if $punten && !$expert && $activePoint}
+					<div class="popup-wrapper" style={popupCoordinaten}>
+						<Obstakelinfo />
+					</div>
+				{/if}
+				<Coordinates {zoom} {lat} {lng} />
+			</div>
 		</div>
 	</div>
 </section>
@@ -237,12 +201,22 @@
 
 		.map {
 			height: 100%;
+			width: 100%;
 			transition: background-color 0.5s;
+
+			.popup-wrapper {
+				position: absolute;
+				translate: -50% 0;
+				z-index: 999;
+			}
 		}
 
 		.main-content {
 			display: grid;
 			grid-template-rows: 8rem 1fr;
+		}
+		.map-toggle {
+			display: flex;
 		}
 	}
 
