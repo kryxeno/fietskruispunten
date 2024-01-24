@@ -13,7 +13,8 @@
 	import {
 		getRoutePoints,
 		getWaypointsById,
-		getCoordinatesById
+		getCoordinatesById,
+		updateCoordinatesByWaypoints
 	} from '$lib/routing/calculateRoute.js';
 	import { updateMarkers } from '$lib/routing/marker.js';
 
@@ -27,6 +28,7 @@
 	let zoom = 14.5;
 	let geocoderElement;
 	let L;
+	let control = null;
 
 	onMount(async () => {
 		if (browser) {
@@ -124,7 +126,7 @@
 
 				await import('leaflet-routing-machine').then(async () => {
 					await import('$lib/routing/Control.Geocoder.js');
-					const control = L.Routing.control({
+					control = L.Routing.control({
 						waypoints: [
 							L.latLng(startingCoordinates[0], startingCoordinates[1]),
 							...waypoints,
@@ -170,13 +172,6 @@
 					});
 					const controlDiv = control.onAdd(map);
 					geocoderElement = controlDiv.firstChild;
-					// eslint-disable-next-line no-unused-vars
-					Object.entries(geocoderElement.children).forEach(([_, node]) => {
-						node.disabled = false;
-						if (node.firstChild.placeholder && node.firstChild.placeholder.startsWith('Via'))
-							node.remove();
-					});
-					document.querySelector('.geocoder').prepend(controlDiv.firstChild);
 				});
 				map.on('mousemove', (e) => {
 					lat = e.latlng.lat.toFixed(6);
@@ -205,6 +200,18 @@
 		if ($punten && map) {
 			updateMarkers(L, map, $punten, $expertOptions, $expert);
 		}
+	}
+
+	$: {
+		const update = async () => {
+			const newCoordinates = await updateCoordinatesByWaypoints($punten);
+			control.setWaypoints([
+				L.latLng(startingCoordinates[0], startingCoordinates[1]),
+				...newCoordinates,
+				L.latLng(endingCoordinates[0], endingCoordinates[1])
+			]);
+		};
+		if (L && control) update();
 	}
 </script>
 

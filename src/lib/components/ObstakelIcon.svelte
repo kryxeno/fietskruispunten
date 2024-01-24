@@ -12,6 +12,7 @@
 	export let small = null;
 	export let stroke;
 	export let fill;
+	export let transition = true;
 
 	const icons = {
 		stoplicht,
@@ -23,7 +24,7 @@
 	};
 </script>
 
-<div transition:fade={{ duration: 200 }}>
+<div transition:fade={{ duration: transition ? 200 : 0 }}>
 	<svelte:component
 		this={icons[type]}
 		style="scale: {scale}; width: {small ? '1.75rem' : '2.5rem'}; height: {small

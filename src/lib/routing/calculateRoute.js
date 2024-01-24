@@ -35,22 +35,22 @@ const relatedWaypoints = {
 };
 
 const alternativeCoordinates = {
-	41024: { coordinates: [4.906436204910279, 52.35797351268496], remove: [41023] },
-	41023: { coordinates: [4.911983013153076, 52.36151820845808] },
-	105: { coordinates: [4.901930093765259, 52.3573313747126] },
-	52622: { coordinates: [4.899357855319978, 52.357115142479046] },
-	54122: { coordinates: [4.89193618297577, 52.356725266535776] },
-	58922: { coordinates: [4.884463548660279, 52.359110336110476] },
-	57822: { coordinates: [4.875719547271729, 52.36220942376238] },
-	104: { coordinates: [4.874979257583619, 52.36329044971408], remove: [113, 50222] },
+	41024: { coordinates: [52.35797351268496, 4.906436204910279], remove: [41023] },
+	41023: { coordinates: null },
+	105: { coordinates: [52.3573313747126, 4.901930093765259] },
+	52622: { coordinates: [52.357115142479046, 4.899357855319978] },
+	54122: { coordinates: [52.356725266535776, 4.89193618297577] },
+	58922: { coordinates: [52.359110336110476, 4.884463548660279] },
+	57822: { coordinates: [52.36220942376238, 4.875719547271729] },
+	104: { coordinates: [52.36329044971408, 4.874979257583619], remove: [113, 50222] },
 	113: { coordinates: null },
-	50222: { coordinates: [4.874056577682496, 52.364626954325175] },
-	15822: { coordinates: [4.875075817108155, 52.367620839981136] },
-	114: { coordinates: [4.871363639831544, 52.368537963479085] },
-	12722: { coordinates: [4.873284101486207, 52.37113856013214] },
-	13022: { coordinates: [4.872077107429505, 52.37292679090183], remove: [13028] },
+	50222: { coordinates: [52.364626954325175, 4.874056577682496] },
+	15822: { coordinates: [52.367620839981136, 4.875075817108155] },
+	114: { coordinates: [52.368537963479085, 4.871363639831544] },
+	12722: { coordinates: [52.37113856013214, 4.873284101486207] },
+	13022: { coordinates: [52.37292679090183, 4.872077107429505], remove: [13028] },
 	13028: { coordinates: null },
-	125: { coordinates: [4.872516989707948, 52.37366695314816] },
+	125: { coordinates: [52.37366695314816, 4.872516989707948] },
 	124: { coordinates: null }
 };
 
@@ -116,6 +116,8 @@ export const getWaypointsById = async (ids, points) => {
 		if (adjustTable[id]) {
 			wp.geometry.coordinates = adjustTable[id.toString()];
 		}
+		if (alternativeCoordinates[id].coordinates) wp.properties.canReroute = true;
+		else wp.properties.canReroute = false;
 		wp.properties.rerouted = false;
 		wp.properties.danger = calculateDanger(wp, points);
 
@@ -130,5 +132,20 @@ export const getCoordinatesById = async (ids, points) => {
 	const coordinateArray = waypoints.map((waypoint) =>
 		waypoint ? waypoint.geometry.coordinates.reverse() : null
 	);
+	return coordinateArray;
+};
+
+export const updateCoordinatesByWaypoints = async (waypoints) => {
+	const coordinateArray = waypoints.map((waypoint) => {
+		if (waypoint.properties.rerouted && waypoint.properties.canReroute) {
+			if (alternativeCoordinates[waypoint.properties.id].remove) {
+				alternativeCoordinates[waypoint.properties.id].remove.forEach((id) => {
+					const wp = waypoints.find((waypoint) => waypoint.properties.id === id);
+					wp.properties.rerouted = false;
+				});
+			}
+			return alternativeCoordinates[waypoint.properties.id].coordinates;
+		} else return waypoint.geometry.coordinates;
+	});
 	return coordinateArray;
 };

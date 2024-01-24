@@ -12,6 +12,11 @@ export const updateMarkers = (L, map, punten, expertOptions, expert) => {
 	// Iterate through the data and add/update markers
 	L.geoJson(punten, {
 		pointToLayer: (feature, latlng) => {
+			const show =
+				(expert && expertOptions.find((option) => option.type === feature.properties.type).state) ||
+				(!expert && feature.properties.danger === 2);
+			const isDisabled = !feature.properties.rerouted;
+
 			const container = L.DomUtil.create('div', 'leaflet-marker-container');
 
 			// Create a Svelte component instance
@@ -19,18 +24,13 @@ export const updateMarkers = (L, map, punten, expertOptions, expert) => {
 				target: container,
 				props: {
 					type: feature.properties.type,
-					stroke: feature.properties.danger
+					stroke: isDisabled ? feature.properties.danger : 'var(--color-grey)'
 				}
 			});
 
 			const iconHtml = container.innerHTML;
 
 			obstakelIconComponent.$destroy();
-
-			const show =
-				expertOptions.find((option) => option.type === feature.properties.type).state &&
-				(expert || (!expert && feature.properties.danger === 2)) &&
-				!feature.properties.rerouted;
 
 			const html = L.divIcon({
 				html: show ? iconHtml : '',

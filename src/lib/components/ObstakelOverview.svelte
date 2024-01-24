@@ -86,6 +86,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			border-bottom: 1px solid var(--color-grey);
 			span {
 				font-weight: 600;
 			}
@@ -104,9 +105,13 @@
 			.obstakel {
 				display: flex;
 				align-items: center;
-				border-top: 1px solid var(--color-grey);
 				background-color: #fafafa;
 				gap: 0.5rem;
+				border-bottom: 1px solid var(--color-grey);
+
+				&:last-of-type {
+					border-bottom: none;
+				}
 
 				&__icon {
 					flex-shrink: 0;

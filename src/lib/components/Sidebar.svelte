@@ -89,9 +89,9 @@
 		<div class="container">
 			<div class="inputs">
 				<div class="icons">
-					<ObstakelIcon type={'startpunt'} small />
+					<ObstakelIcon type={'startpunt'} small transition={false} />
 					<div />
-					<ObstakelIcon type={'eindpunt'} small />
+					<ObstakelIcon type={'eindpunt'} small transition={false} />
 				</div>
 				<Geocoder {geocoderElement} />
 			</div>

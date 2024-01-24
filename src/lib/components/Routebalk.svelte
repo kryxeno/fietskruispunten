@@ -28,7 +28,7 @@
 						100}%; "
 				>
 					{#if ($expertOptions.find((o) => o.type === type)?.state || type === 'werkzaamheden') && ($expert || (!$expert && danger === 2)) && !rerouted}
-						<ObstakelIcon {type} stroke={danger} />
+						<ObstakelIcon {type} stroke={danger} transition />
 					{/if}
 				</div>
 			{/each}
@@ -95,8 +95,8 @@
 	}
 
 	.route-line {
-		height: 4px;
-		background-color: black;
+		height: 12px;
+		background-color: var(--color-grey-light);
 		position: relative;
 		width: 100%;
 		display: flex;
