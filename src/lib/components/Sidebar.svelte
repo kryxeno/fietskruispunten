@@ -1,8 +1,10 @@
 <script>
 	import ObstakelIcon from '$lib/components/ObstakelIcon.svelte';
+	import Obstakelinfo2 from '$lib/components/Obstakelinfo2.svelte';
 	import editIcon from '$lib/images/edit.svg';
 	import Switch from '$lib/components/Switch.svelte';
 	import Basebutton from '$lib/components/Basebutton.svelte';
+	import Obstakelinfo from '$lib/components/obstakelinfo.svelte';
 	import {
 		fietsvriendelijk,
 		expert,
@@ -21,82 +23,84 @@
 </script>
 
 <section class="sidebar">
-	{#if $expert}
-		<div style="padding: 1rem 1rem 0 1rem;">
-			<h2>Expert modus</h2>
-		</div>
-		<hr />
-		<div class="container">
-			<div class="route-display">
-				<div class="route-display__edit">
-					<img src={editIcon} alt="edit route" />
-				</div>
-				<section class="route-display__locations">
-					<p><span>Van</span> {$route.waypoints[0].name}</p>
-					<p><span>Naar</span> {$route.waypoints.at(-1).name}</p>
-				</section>
-			</div>
-		</div>
-		<hr />
-		<div class="container half">
-			<Basebutton
-				label={'Terug naar basis modus'}
-				backgroundColor="var(--color-blue-dark)"
-				on:click={changeMode}
-			/>
-		</div>
-		<hr />
-		<div class="container half">
-			<Switch label="Toon kaart" bind:checked={$expertKaart} />
-		</div>
-		<hr />
-		<section class="container half kaart-options">
-			<p>Laten zien op de kaart</p>
-			<ul>
-				{#each $expertOptions as { name, type, state }}
-					<li>
-						<button>
-							<ObstakelIcon {type} stroke="transparent" />
-							<p>({$punten.filter((p) => p.type === type).length})</p>
-							<Checkbox label={name} bind:checked={state} />
-						</button>
-					</li>
-				{/each}
-			</ul>
-		</section>
-	{:else}
-		<div style="padding: 1rem 1rem 0 1rem;">
-			<h2>Mijn fietsroute</h2>
-		</div>
-		<hr />
-		<div class="container">
-			<div class="inputs">
-				<div class="icons">
-					<ObstakelIcon type={'startpunt'} small />
-					<div />
-					<ObstakelIcon type={'eindpunt'} small />
-				</div>
-				<Geocoder {geocoderElement} />
-			</div>
-		</div>
-		<hr />
-		<div class="container half">
-			<Switch
-				label="Fietsvriendelijk"
-				bind:checked={$fietsvriendelijk}
-				backgroundColor="var(--color-success)"
-			/>
-		</div>
-		<hr />
-		<div class="container half">
-			<Basebutton
-				label={'Route in expert modus bekijken'}
-				backgroundColor="var(--color-blue-dark)"
-				on:click={changeMode}
-			/>
-		</div>
-		<ObstakelOverview {obstakels} />
-	{/if}
+	<!-- <Obstakelinfo2 /> -->
+	<Obstakelinfo />
+	<!-- {#if $expert}
+        <div style="padding: 1rem 1rem 0 1rem;">
+            <h2>Expert modus</h2>
+        </div>
+        <hr />
+        <div class="container">
+            <div class="route-display">
+                <div class="route-display__edit">
+                    <img src={editIcon} alt="edit route" />
+                </div>
+                <section class="route-display__locations">
+                    <p><span>Van</span> {$route.waypoints[0].name}</p>
+                    <p><span>Naar</span> {$route.waypoints.at(-1).name}</p>
+                </section>
+            </div>
+        </div>
+        <hr />
+        <div class="container half">
+            <Basebutton
+                label={'Terug naar basis modus'}
+                backgroundColor="var(--color-blue-dark)"
+                on:click={changeMode}
+            />
+        </div>
+        <hr />
+        <div class="container half">
+            <Switch label="Toon kaart" bind:checked={$expertKaart} />
+        </div>
+        <hr />
+        <section class="container half kaart-options">
+            <p>Laten zien op de kaart</p>
+            <ul>
+                {#each $expertOptions as { name, type, state }}
+                    <li>
+                        <button>
+                            <ObstakelIcon {type} stroke="transparent" />
+                            <p>({$punten.filter((p) => p.type === type).length})</p>
+                            <Checkbox label={name} bind:checked={state} />
+                        </button>
+                    </li>
+                {/each}
+            </ul>
+        </section>
+    {:else}
+        <div style="padding: 1rem 1rem 0 1rem;">
+            <h2>Mijn fietsroute</h2>
+        </div>
+        <hr />
+        <div class="container">
+            <div class="inputs">
+                <div class="icons">
+                    <ObstakelIcon type={'startpunt'} small />
+                    <div />
+                    <ObstakelIcon type={'eindpunt'} small />
+                </div>
+                <Geocoder {geocoderElement} />
+            </div>
+        </div>
+        <hr />
+        <div class="container half">
+            <Switch
+                label="Fietsvriendelijk"
+                bind:checked={$fietsvriendelijk}
+                backgroundColor="var(--color-success)"
+            />
+        </div>
+        <hr />
+        <div class="container half">
+            <Basebutton
+                label={'Route in expert modus bekijken'}
+                backgroundColor="var(--color-blue-dark)"
+                on:click={changeMode}
+            />
+        </div>
+        <ObstakelOverview {obstakels} />
+    {/if} -->
 </section>
 
 <style lang="scss">
