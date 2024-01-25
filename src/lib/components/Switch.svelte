@@ -1,15 +1,27 @@
 <script>
+	import { afterUpdate } from 'svelte';
 	import { createSwitch } from 'svelte-headlessui';
 
 	export let label = undefined;
 	export let checked;
 	export let backgroundColor = 'var(--color-blue-dark)';
+	export let invert = false;
+	export let disabled = null;
 
-	const sw = createSwitch({ label, checked });
-	$: checked = $sw.checked;
+	const sw = createSwitch({ label, checked: invert ? !checked : checked });
+	$: checked = invert ? !$sw.checked : $sw.checked;
+
+	$: {
+		if (disabled) $sw.checked = invert ? false : true;
+	}
+
+	// Use afterUpdate to react to changes in the checked prop from outside
+	afterUpdate(() => {
+		$sw.checked = invert ? !checked : checked;
+	});
 </script>
 
-<div class="switch" use:sw.toggle>
+<div class="switch {disabled ? 'disabled' : ''}" use:sw.toggle>
 	{#if label}
 		<label for="switch" class="switch-label">{label}</label>
 	{/if}
@@ -24,6 +36,17 @@
 		justify-content: space-between;
 		align-items: center;
 		width: 100%;
+		transition: opacity 0.3s;
+
+		&.disabled {
+			opacity: 0.5;
+			pointer-events: none;
+
+			.switch-button {
+				cursor: not-allowed;
+				background-color: var(--color-grey) !important;
+			}
+		}
 
 		.switch-button {
 			display: flex;

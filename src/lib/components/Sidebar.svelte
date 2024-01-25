@@ -7,17 +7,39 @@
 		fietsvriendelijk,
 		expert,
 		expertKaart,
-		obstakels,
 		expertOptions,
 		route,
 		punten
 	} from '$lib/stores.js';
 	import ObstakelOverview from '$lib/components/ObstakelOverview.svelte';
 	import Checkbox from '$lib/components/Checkbox.svelte';
-	import Geocoder from './Geocoder.svelte';
+	import Geocoder from '$lib/components/Geocoder.svelte';
 
 	export let geocoderElement;
 	const changeMode = () => ($expert = !$expert);
+
+	$: {
+		if ($fietsvriendelijk && $punten) {
+			punten.set(
+				$punten.map((punt) => {
+					if (punt.properties.danger === 2) {
+						return {
+							...punt,
+							properties: {
+								...punt.properties,
+								rerouted: true
+							}
+						};
+					} else {
+						return punt;
+					}
+				})
+			);
+			// 	$punten
+			// 		.filter((p) => p.properties.danger === 2)
+			// 		.forEach((punt) => (punt.properties.rerouted = true));
+		}
+	}
 </script>
 
 <section class="sidebar">
@@ -32,8 +54,14 @@
 					<img src={editIcon} alt="edit route" />
 				</div>
 				<section class="route-display__locations">
-					<p><span>Van</span> {$route.waypoints[0].name}</p>
-					<p><span>Naar</span> {$route.waypoints.at(-1).name}</p>
+					<p>
+						<span>Van</span>
+						{$route.waypoints[0].name !== '' ? $route.waypoints[0].name : 'Loading...'}
+					</p>
+					<p>
+						<span>Naar</span>
+						{$route.waypoints.at(-1).name !== '' ? $route.waypoints.at(-1).name : 'Loading...'}
+					</p>
 				</section>
 			</div>
 		</div>
@@ -55,9 +83,12 @@
 			<ul>
 				{#each $expertOptions as { name, type, state }}
 					<li>
-						<button>
+						<button class={!$punten.find((p) => p.properties.type === type) && 'disabled'}>
 							<ObstakelIcon {type} stroke="transparent" />
-							<p>({$punten.filter((p) => p.type === type).length})</p>
+							<p>
+								({$punten.filter((p) => p.properties.type === type && !p.properties.rerouted)
+									.length})
+							</p>
 							<Checkbox label={name} bind:checked={state} />
 						</button>
 					</li>
@@ -72,9 +103,9 @@
 		<div class="container">
 			<div class="inputs">
 				<div class="icons">
-					<ObstakelIcon type={'startpunt'} small />
+					<ObstakelIcon type={'startpunt'} small transition={false} />
 					<div />
-					<ObstakelIcon type={'eindpunt'} small />
+					<ObstakelIcon type={'eindpunt'} small transition={false} />
 				</div>
 				<Geocoder {geocoderElement} />
 			</div>
@@ -95,7 +126,7 @@
 				on:click={changeMode}
 			/>
 		</div>
-		<ObstakelOverview {obstakels} />
+		<ObstakelOverview />
 	{/if}
 </section>
 
@@ -161,6 +192,11 @@
 					padding: 1rem;
 					width: calc(100% - 2rem);
 					gap: 0.5rem;
+
+					&.disabled {
+						opacity: 0.5;
+						pointer-events: none;
+					}
 
 					p {
 						white-space: nowrap;

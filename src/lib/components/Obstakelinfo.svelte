@@ -1,56 +1,117 @@
 <script>
 	import { metersToKilometers } from '$lib/utils/numbers.js';
 	import ObstakelIcon from '$lib/components/ObstakelIcon.svelte';
-	import { obstakels } from '$lib/stores.js';
 	import infoIcon from '$lib/images/info.svg';
 	import Drukteicon from '$lib/image-components/drukteicon.svelte';
 	import Basebutton from '$lib/components/Basebutton.svelte';
 	import clockIcon from '$lib/images/clock.svg';
+	import { route, punten, activePoint, fietsvriendelijk } from '$lib/stores.js';
 
 	let open = false;
-	let danger = 1;
+	let index = 0;
+	let actief;
 
-	const obstakel = $obstakels[0];
 	const setOpen = () => (open = !open);
+
+	$: if ($activePoint && $punten) {
+		actief = $punten.find((punt) => punt.properties.id === $activePoint);
+		index = $punten.findIndex((punt) => punt.properties.id === $activePoint);
+		open = false;
+		console.log(actief);
+	}
+
+	const vermijdObstakel = () => {
+		punten.update((array) =>
+			array.map((punt) =>
+				punt.properties.id === actief.properties.id
+					? { ...punt, properties: { ...punt.properties, rerouted: !punt.properties.rerouted } }
+					: punt
+			)
+		);
+	};
+
+	let totalDistance = 0;
+
+	$: if ($route) {
+		totalDistance = $route.summary.totalDistance;
+	}
+
+	const displayNames = {
+		stoplicht: ['Veilig stoplicht', 'Stoplicht', 'Onveilig stoplicht'],
+		kruispunt: ['Rustig kruispunt', 'Kruispunt', 'Gevaarlijk kruispunt']
+	};
 </script>
 
 <section class="obstakel container">
 	<button on:click={setOpen} class="obstakelsection">
 		<div class="obstakel__icon">
-			<ObstakelIcon type={obstakel.type} />
+			<ObstakelIcon
+				type={actief.properties.type}
+				stroke={!actief.properties.rerouted ? actief.properties.danger : 'var(--color-grey)'}
+				transition={false}
+			/>
 		</div>
 		<div class="obstakel__info">
 			<div class="obstakel__info-top">
-				<h3>{obstakel.name}</h3>
+				<h3>{displayNames[actief.properties.type][actief.properties.danger]}</h3>
 				<img src={infoIcon} alt="info" />
 			</div>
 			<div class="obstakel__info-bottom">
-				<p>{metersToKilometers(obstakel.afstand)}</p>
-				<p><span>&#9679;</span> {obstakel.description}</p>
+				{#if $route}
+					<p>
+						{metersToKilometers(
+							($route.waypointIndices[index + 1] / $route.waypointIndices.at(-1)) * totalDistance
+						)}
+					</p>
+					<p>
+						<span>&#9679;</span>
+						{$route.waypoints[index].name !== '' ? $route.waypoints[index].name : 'Locatie...'}
+					</p>
+				{/if}
 			</div>
 		</div>
 	</button>
 	{#if open}
 		<div class="content-open">
 			<h3 class="obstakel-info-reden">Waarom is dit kruispunt gevaarlijk?</h3>
-			<section class="details-data">
-				<Drukteicon drukte={danger} />
-				{#if danger === 0}
-					<p>Niet druk</p>
-				{:else if danger === 1}
-					<p>Redelijk druk</p>
-				{:else if danger === 2}
-					<p>Erg druk</p>
+			{#if actief.properties.type === 'stoplicht'}
+				{#if actief.properties['doorrijd%'] > 50}
+					<p>Relatief veel weggebruikers rijden op dit punt door rood.</p>
+				{:else}
+					<section class="wachttijd">
+						<img src={clockIcon} alt="clock icon" />
+						<p>Weggebruikers wachten hier gemiddeld <strong>{'?'} min</strong></p>
+					</section>
 				{/if}
-			</section>
-
-			<section class="wachttijd">
-				<img src={clockIcon} alt="" />
-				<p>Weggebruikers wachten hier gemiddeld <strong>4 min</strong></p>
-			</section>
-
-			<p>Relatief veel weggebruikers rijden op dit punt door rood.</p>
-			<Basebutton label="Dit obstakel vermijden" />
+			{:else if actief.properties.type === 'kruispunt'}
+				<section class="details-data">
+					<Drukteicon drukte={actief.properties.danger} />
+					{#if actief.properties.danger === 0}
+						<p>Niet druk</p>
+					{:else if actief.properties.danger === 1}
+						<p>Redelijk druk</p>
+					{:else if actief.properties.danger === 2}
+						<p>Erg druk</p>
+					{/if}
+				</section>
+			{/if}
+			<Basebutton
+				label={actief.properties.rerouted ? 'Obstakel terugzetten' : 'Dit obstakel vermijden'}
+				backgroundColor={`var(--color-${actief.properties.rerouted ? 'blue-dark' : 'primary'})`}
+				on:click={vermijdObstakel}
+				disabled={$fietsvriendelijk || !actief.properties.canReroute}
+			/>
+			{#if $fietsvriendelijk}
+				<p>
+					<img src={infoIcon} alt="info" />
+					De fietsvriendelijk knop staat aan, waardoor u niet dit punt kan aanpassen.
+				</p>
+			{:else if !actief.properties.canReroute}
+				<p>
+					<img src={infoIcon} alt="info" />
+					Er is geen alternatieve route voor dit punt.
+				</p>
+			{/if}
 		</div>
 	{/if}
 </section>
@@ -70,6 +131,9 @@
 		flex-direction: column;
 		border: 1px solid var(--color-grey);
 		gap: 1.5rem;
+		width: 23rem;
+		flex-shrink: 0;
+		background-color: #fff;
 
 		h3 {
 			font-size: 1rem;
@@ -83,6 +147,12 @@
 			display: flex;
 			flex-direction: column;
 			gap: 1rem;
+
+			> p {
+				display: flex;
+				align-items: flex-start;
+				gap: 0.5rem;
+			}
 
 			.details-data {
 				display: flex;
@@ -150,10 +220,6 @@
 				img {
 					width: 1.4rem;
 					height: 1.4rem;
-				}
-
-				p {
-					font-size: 1rem;
 				}
 			}
 		}

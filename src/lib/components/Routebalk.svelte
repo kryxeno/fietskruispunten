@@ -1,8 +1,7 @@
 <script>
 	import ObstakelIcon from '$lib/components/ObstakelIcon.svelte';
-	import { obstakels, route, expert, expertOptions, punten } from '$lib/stores.js';
+	import { route, expert, expertOptions, punten, activePoint } from '$lib/stores.js';
 	import { metersToKilometers, secondsToMinutes } from '$lib/utils/numbers.js';
-	import { fade } from 'svelte/transition';
 
 	// Ik weet niet waarom deze soms niet werkt, maar dit is een workaround.
 	// De store update met een empty string maar toch krijgt hij de volledige string er in.
@@ -11,6 +10,11 @@
 	setTimeout(() => {
 		$route = $route;
 	}, 1500);
+
+	const setActivePoint = (point) => {
+		console.log('werkt');
+		$activePoint = point.properties.id;
+	};
 </script>
 
 <div class="timeline-container">
@@ -22,27 +26,21 @@
 			<ObstakelIcon type={'eindpunt'} small />
 		</div>
 		{#if $route}
-			{#each $obstakels as { type, afstand, actief }}
-				{#if actief && !$expert}
-					<div
-						class="route-icon"
-						transition:fade={{ duration: 200 }}
-						style="left: {(afstand / $route.summary.totalDistance) * 100}%; "
-					>
-						<ObstakelIcon {type} />
-					</div>
-				{/if}
-			{/each}
-			{#each $punten as { type, afstand }}
-				{#if ($expertOptions.find((o) => o.type === type)?.state || type === 'werkzaamheden') && $expert}
-					<div
-						class="route-icon"
-						transition:fade={{ duration: 200 }}
-						style="left: {(afstand / $route.summary.totalDistance) * 100}%; "
-					>
-						<ObstakelIcon {type} />
-					</div>
-				{/if}
+			{#each $punten as punt, index}
+				<div
+					class="route-icon"
+					style="left: {($route.waypointIndices[index + 1] / $route.waypointIndices.at(-1)) *
+						100}%; "
+				>
+					{#if ($expertOptions.find((o) => o.type === punt.properties.type)?.state || punt.properties.type === 'werkzaamheden') && ($expert || (!$expert && punt.properties.danger === 2)) && !punt.properties.rerouted}
+						<ObstakelIcon
+							type={punt.properties.type}
+							stroke={punt.properties.danger}
+							transition
+							on:click={() => setActivePoint(punt)}
+						/>
+					{/if}
+				</div>
 			{/each}
 		{/if}
 		<div class="route-labels start">
@@ -59,7 +57,7 @@
 			<p>
 				{#if $route}
 					{metersToKilometers($route.summary.totalDistance)} / {secondsToMinutes(
-						$route.summary.totalTime
+						$route.summary.totalTime * 2
 					)}
 				{/if}
 			</p>
@@ -80,6 +78,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 3rem;
+		z-index: -1;
 
 		p {
 			font-size: 0.8rem;
@@ -107,8 +106,8 @@
 	}
 
 	.route-line {
-		height: 4px;
-		background-color: black;
+		height: 12px;
+		background-color: var(--color-grey-light);
 		position: relative;
 		width: 100%;
 		display: flex;

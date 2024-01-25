@@ -4,7 +4,7 @@ const routes = [
 		properties: {
 			id: 40822,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 5
@@ -16,7 +16,7 @@ const routes = [
 		properties: {
 			id: 52924,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 5
@@ -28,7 +28,7 @@ const routes = [
 		properties: {
 			id: 52622,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 40
@@ -40,7 +40,7 @@ const routes = [
 		properties: {
 			id: 54122,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 40
@@ -52,7 +52,7 @@ const routes = [
 		properties: {
 			id: 58922,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 50
@@ -64,7 +64,7 @@ const routes = [
 		properties: {
 			id: 57822,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 25
@@ -76,7 +76,7 @@ const routes = [
 		properties: {
 			id: 50222,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 50
@@ -88,7 +88,7 @@ const routes = [
 		properties: {
 			id: 15822,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 30
@@ -100,7 +100,7 @@ const routes = [
 		properties: {
 			id: 12722,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 25
@@ -112,7 +112,7 @@ const routes = [
 		properties: {
 			id: 13022,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 25
@@ -124,7 +124,7 @@ const routes = [
 		properties: {
 			id: 13028,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 20
@@ -136,7 +136,7 @@ const routes = [
 		properties: {
 			id: 13024,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 20
@@ -148,7 +148,7 @@ const routes = [
 		properties: {
 			id: 11926,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 20
@@ -160,7 +160,7 @@ const routes = [
 		properties: {
 			id: 11922,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 20
@@ -172,7 +172,7 @@ const routes = [
 		properties: {
 			id: 93128,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 80
@@ -184,7 +184,7 @@ const routes = [
 		properties: {
 			id: 93124,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 80
@@ -196,7 +196,7 @@ const routes = [
 		properties: {
 			id: 12824,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 25
@@ -208,7 +208,7 @@ const routes = [
 		properties: {
 			id: 12820,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 5
@@ -220,7 +220,7 @@ const routes = [
 		properties: {
 			id: 15726,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 20
@@ -232,7 +232,7 @@ const routes = [
 		properties: {
 			id: 15722,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 52
@@ -244,7 +244,7 @@ const routes = [
 		properties: {
 			id: 57626,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 10
@@ -256,7 +256,7 @@ const routes = [
 		properties: {
 			id: 57628,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 10
@@ -268,7 +268,7 @@ const routes = [
 		properties: {
 			id: 57624,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 10
@@ -280,7 +280,7 @@ const routes = [
 		properties: {
 			id: 57622,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 10
@@ -292,7 +292,7 @@ const routes = [
 		properties: {
 			id: 58326,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 90
@@ -304,7 +304,7 @@ const routes = [
 		properties: {
 			id: 58386,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 90
@@ -316,7 +316,7 @@ const routes = [
 		properties: {
 			id: 58625,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 15
@@ -328,7 +328,7 @@ const routes = [
 		properties: {
 			id: 59011,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 20
@@ -340,7 +340,7 @@ const routes = [
 		properties: {
 			id: 54126,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 80
@@ -352,7 +352,7 @@ const routes = [
 		properties: {
 			id: 58924,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 15
@@ -364,7 +364,7 @@ const routes = [
 		properties: {
 			id: 54225,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 10
@@ -376,7 +376,7 @@ const routes = [
 		properties: {
 			id: 54285,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 90
@@ -388,7 +388,7 @@ const routes = [
 		properties: {
 			id: 52411,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 25
@@ -400,7 +400,7 @@ const routes = [
 		properties: {
 			id: 52405,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 25
@@ -412,7 +412,7 @@ const routes = [
 		properties: {
 			id: 40924,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 50
@@ -424,7 +424,7 @@ const routes = [
 		properties: {
 			id: 40922,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 20
@@ -436,7 +436,7 @@ const routes = [
 		properties: {
 			id: 41024,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 70
@@ -448,7 +448,7 @@ const routes = [
 		properties: {
 			id: 41023,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 70
@@ -460,7 +460,7 @@ const routes = [
 		properties: {
 			id: 41026,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 10
@@ -472,7 +472,7 @@ const routes = [
 		properties: {
 			id: 41027,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 80
@@ -484,7 +484,7 @@ const routes = [
 		properties: {
 			id: 41028,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 10
@@ -496,7 +496,7 @@ const routes = [
 		properties: {
 			id: 52928,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 25
@@ -508,7 +508,7 @@ const routes = [
 		properties: {
 			id: 52826,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 20
@@ -520,7 +520,7 @@ const routes = [
 		properties: {
 			id: 52925,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 80
@@ -532,7 +532,7 @@ const routes = [
 		properties: {
 			id: 52626,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 60
@@ -544,7 +544,7 @@ const routes = [
 		properties: {
 			id: 12622,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 15
@@ -556,7 +556,7 @@ const routes = [
 		properties: {
 			id: 12626,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 15
@@ -568,7 +568,7 @@ const routes = [
 		properties: {
 			id: 12726,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 25
@@ -580,7 +580,7 @@ const routes = [
 		properties: {
 			id: 40826,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 20
@@ -592,7 +592,7 @@ const routes = [
 		properties: {
 			id: 1,
 			deelconfli: 1,
-			type: 'voorrang',
+			type: 'kruispunt',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 50
@@ -604,7 +604,7 @@ const routes = [
 		properties: {
 			id: 3,
 			deelconfli: 1,
-			type: 'voorrang',
+			type: 'kruispunt',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 80
@@ -616,7 +616,7 @@ const routes = [
 		properties: {
 			id: 57728,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 10
@@ -628,7 +628,7 @@ const routes = [
 		properties: {
 			id: 50226,
 			deelconfli: 1,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 50
@@ -640,7 +640,7 @@ const routes = [
 		properties: {
 			id: 15826,
 			deelconfli: 0,
-			type: 'verkeersl',
+			type: 'stoplicht',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 30
@@ -652,7 +652,7 @@ const routes = [
 		properties: {
 			id: 4,
 			deelconfli: 1,
-			type: 'voorrang',
+			type: 'kruispunt',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 50
@@ -664,7 +664,7 @@ const routes = [
 		properties: {
 			id: 5,
 			deelconfli: 1,
-			type: 'voorrang',
+			type: 'kruispunt',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 80
@@ -676,7 +676,7 @@ const routes = [
 		properties: {
 			id: 6,
 			deelconfli: 1,
-			type: 'voorrang',
+			type: 'kruispunt',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': 95
@@ -688,7 +688,7 @@ const routes = [
 		properties: {
 			id: 100,
 			deelconfli: 1,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': null,
 			gewonden: null,
 			'doorrijd%': null
@@ -700,7 +700,7 @@ const routes = [
 		properties: {
 			id: 101,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 1,
 			'doorrijd%': null
@@ -712,7 +712,7 @@ const routes = [
 		properties: {
 			id: 102,
 			deelconfli: 1,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 2,
 			'doorrijd%': null
@@ -724,7 +724,7 @@ const routes = [
 		properties: {
 			id: 105,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 0,
 			'doorrijd%': null
@@ -736,7 +736,7 @@ const routes = [
 		properties: {
 			id: 106,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 0,
 			'doorrijd%': null
@@ -748,7 +748,7 @@ const routes = [
 		properties: {
 			id: 107,
 			deelconfli: 1,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 3,
 			gewonden: 0,
 			'doorrijd%': null
@@ -760,7 +760,7 @@ const routes = [
 		properties: {
 			id: 108,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 1,
 			'doorrijd%': null
@@ -772,7 +772,7 @@ const routes = [
 		properties: {
 			id: 109,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 0,
 			'doorrijd%': null
@@ -784,7 +784,7 @@ const routes = [
 		properties: {
 			id: 110,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 0,
 			'doorrijd%': null
@@ -796,7 +796,7 @@ const routes = [
 		properties: {
 			id: 111,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 0,
 			'doorrijd%': null
@@ -808,7 +808,7 @@ const routes = [
 		properties: {
 			id: 112,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 2,
 			gewonden: 0,
 			'doorrijd%': null
@@ -820,7 +820,7 @@ const routes = [
 		properties: {
 			id: 104,
 			deelconfli: 1,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 1,
 			'doorrijd%': null
@@ -832,7 +832,7 @@ const routes = [
 		properties: {
 			id: 113,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 1,
 			'doorrijd%': null
@@ -844,7 +844,7 @@ const routes = [
 		properties: {
 			id: 114,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 0,
 			'doorrijd%': null
@@ -856,7 +856,7 @@ const routes = [
 		properties: {
 			id: 115,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 1,
 			'doorrijd%': null
@@ -868,7 +868,7 @@ const routes = [
 		properties: {
 			id: 116,
 			deelconfli: 1,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 1,
 			'doorrijd%': null
@@ -880,7 +880,7 @@ const routes = [
 		properties: {
 			id: 117,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 2,
 			gewonden: 1,
 			'doorrijd%': null
@@ -892,7 +892,7 @@ const routes = [
 		properties: {
 			id: 118,
 			deelconfli: 1,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 0,
 			'doorrijd%': null
@@ -904,7 +904,7 @@ const routes = [
 		properties: {
 			id: 120,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 2,
 			gewonden: 1,
 			'doorrijd%': null
@@ -916,7 +916,7 @@ const routes = [
 		properties: {
 			id: 121,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 0,
 			'doorrijd%': null
@@ -928,7 +928,7 @@ const routes = [
 		properties: {
 			id: 122,
 			deelconfli: 1,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 1,
 			'doorrijd%': null
@@ -940,7 +940,7 @@ const routes = [
 		properties: {
 			id: 123,
 			deelconfli: 1,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 1,
 			'doorrijd%': null
@@ -952,7 +952,7 @@ const routes = [
 		properties: {
 			id: 124,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 0,
 			'doorrijd%': null
@@ -964,7 +964,7 @@ const routes = [
 		properties: {
 			id: 125,
 			deelconfli: 1,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 2,
 			gewonden: 1,
 			'doorrijd%': null
@@ -976,7 +976,7 @@ const routes = [
 		properties: {
 			id: 126,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 0,
 			'doorrijd%': null
@@ -988,7 +988,7 @@ const routes = [
 		properties: {
 			id: 127,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 0,
 			'doorrijd%': null
@@ -1000,7 +1000,7 @@ const routes = [
 		properties: {
 			id: 128,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 0,
 			'doorrijd%': null
@@ -1012,7 +1012,7 @@ const routes = [
 		properties: {
 			id: 129,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 3,
 			gewonden: 1,
 			'doorrijd%': null
@@ -1024,7 +1024,7 @@ const routes = [
 		properties: {
 			id: 130,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 1,
 			'doorrijd%': null
@@ -1036,7 +1036,7 @@ const routes = [
 		properties: {
 			id: 131,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 1,
 			'doorrijd%': null
@@ -1048,7 +1048,7 @@ const routes = [
 		properties: {
 			id: 132,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 0,
 			'doorrijd%': null
@@ -1060,7 +1060,7 @@ const routes = [
 		properties: {
 			id: 134,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 1,
 			'doorrijd%': null
@@ -1072,7 +1072,7 @@ const routes = [
 		properties: {
 			id: 140,
 			deelconfli: 1,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 0,
 			'doorrijd%': null
@@ -1084,7 +1084,7 @@ const routes = [
 		properties: {
 			id: 141,
 			deelconfli: 1,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 2,
 			gewonden: 1,
 			'doorrijd%': null
@@ -1096,7 +1096,7 @@ const routes = [
 		properties: {
 			id: 136,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 0,
 			'doorrijd%': null
@@ -1108,7 +1108,7 @@ const routes = [
 		properties: {
 			id: 142,
 			deelconfli: 0,
-			type: 'ongeval',
+			type: 'kruispunt',
 			'#ongeval': 1,
 			gewonden: 0,
 			'doorrijd%': null
