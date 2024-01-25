@@ -7,6 +7,9 @@
 	import { fade } from 'svelte/transition';
 	import { activePoint, punten, route, fietsvriendelijk } from '$lib/stores.js';
 	import infoIcon from '$lib/images/info.svg';
+	import AreaGraph from '$lib/components/AreaGraph.svelte';
+	import points_28 from '$lib/routing/kr130_28_maandag_jan.json';
+	import points_22 from '$lib/routing/kr130_22_maandag_jan.json';
 
 	let actief;
 	let index = 0;
@@ -14,7 +17,7 @@
 	$: if ($activePoint && $punten) {
 		actief = $punten.find((punt) => punt.properties.id === $activePoint);
 		index = $punten.findIndex((punt) => punt.properties.id === $activePoint);
-		console.log('refreshedpunt');
+		console.log(actief);
 	}
 
 	const resetActivePoint = () => ($activePoint = null);
@@ -70,13 +73,30 @@
 		</div>
 	</div>
 	<div class="content-open">
+		{#if actief.properties.type === 'kruispunt' || actief.properties.id === 13028 || actief.properties.id === 13022}
+			<h3 class="obstakel-info-reden">Doorstroom van het verkeer</h3>
+			{#if actief.properties.id === 13022}
+				<AreaGraph points={points_22} />
+			{:else if actief.properties.id === 13028}
+				<AreaGraph points={points_28} />
+			{:else}
+				<p>Incomplete data voor dit punt.</p>
+			{/if}
+		{/if}
+
 		{#if actief.properties.type === 'stoplicht'}
 			<section class="wachttijd">
 				<img src={clockIcon} alt="tijdsduur icoon" />
-				<p>Weggebruikers wachten hier gemiddeld <strong>{'?'} min</strong></p>
+				<p>
+					Weggebruikers wachten hier tijdens de vertrektijd gemiddeld <strong
+						>{actief.properties.id === 13028
+							? Math.round(points_28[8].gem_wachttijd_alle_fietsers)
+							: actief.properties.id === 13022
+								? Math.round(points_22[8].gem_wachttijd_alle_fietsers)
+								: '?'} seconden</strong
+					>
+				</p>
 			</section>
-		{:else if actief.properties.type === 'kruispunt'}
-			<h3 class="obstakel-info-reden">Doorstroom van het verkeer</h3>
 		{/if}
 
 		<section class="details-data">
@@ -98,9 +118,10 @@
 			label={actief.properties.rerouted ? 'Obstakel terugzetten' : 'Dit obstakel vermijden'}
 			backgroundColor={`var(--color-${actief.properties.rerouted ? 'blue-dark' : 'primary'})`}
 			on:click={vermijdObstakel}
-			disabled={$fietsvriendelijk || !actief.properties.canReroute}
+			disabled={($fietsvriendelijk && actief.properties.danger === 2) ||
+				!actief.properties.canReroute}
 		/>
-		{#if $fietsvriendelijk}
+		{#if $fietsvriendelijk && actief.properties.danger === 2}
 			<p>
 				<img src={infoIcon} alt="info" />
 				De fietsvriendelijk knop staat aan, waardoor u niet dit punt kan aanpassen.

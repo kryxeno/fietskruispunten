@@ -1,4 +1,5 @@
 <script>
+	import { afterUpdate } from 'svelte';
 	import { createSwitch } from 'svelte-headlessui';
 
 	export let label = undefined;
@@ -11,8 +12,13 @@
 	$: checked = invert ? !$sw.checked : $sw.checked;
 
 	$: {
-		if (disabled) $sw.checked = false;
+		if (disabled) $sw.checked = invert ? false : true;
 	}
+
+	// Use afterUpdate to react to changes in the checked prop from outside
+	afterUpdate(() => {
+		$sw.checked = invert ? !checked : checked;
+	});
 </script>
 
 <div class="switch {disabled ? 'disabled' : ''}" use:sw.toggle>
